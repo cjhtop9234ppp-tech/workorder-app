@@ -1,0 +1,379 @@
+/* 설정 화면: overview.css 위에 덧붙이는 스타일 */
+
+/* 새로고침(F5) 때 중간 화면이 스쳐 보이지 않도록: 자료를 다 그린 뒤에만 본문을 보인다 */
+html.booting #settings-body { visibility: hidden; }
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tab {
+  padding: 9px 14px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.tab.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text, #fff);
+  font-weight: 700;
+}
+
+.panel h2 { font-size: 16px; margin: 0 0 6px; }
+.panel .hint { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-btn,
+.row button {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.status {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* 매칭 목록 */
+.match-table td,
+.match-table th {
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.match-table td.editable {
+  cursor: copy;
+  white-space: nowrap;
+}
+
+.match-table td.editable:hover { background: var(--bg); }
+.match-table td.editable:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.match-table td.editable input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.match-table td.status-cell { font-weight: 700; }
+.match-table td.status-cell.match { color: #0a7a3d; }
+.match-table td.status-cell.nomatch { color: #b00020; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #1d2430;
+  color: #fff;
+  font-size: 14px;
+  z-index: 50;
+}
+
+/* 행 추가·삭제, 공업사 표 */
+.small-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.small-btn.danger { border-color: #b00020; color: #b00020; }
+
+.match-table td input,
+.shop-table td input {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 90px;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.shop-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.shop-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.shop-form input {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-width: 160px;
+}
+
+.shop-form button.primary {
+  height: 38px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.shop-table td { white-space: nowrap; }
+
+.opt-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-width: 420px; }
+.opt-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
+#tab-meta input[type=text] { height: 34px; padding: 0 8px; font-size: 14px; border: 1px solid var(--line); border-radius: 6px; min-width: 220px; }
+
+/* 1. 주작업항목 그림이미지 매칭: 제목 오른쪽에 그림 업로드·다운로드 */
+.sec-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.sec-head h2 { margin: 0; }
+.sec-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* 기타메모사항 입력 줄 */
+.memo-new { align-items: center; flex-wrap: wrap; }
+.memo-new label { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.memo-new input[type="text"] { min-width: 220px; flex: 1; }
+#memo-bank-rows input[type="text"] { width: 100%; box-sizing: border-box; }
+
+/* 매칭 목록: 목록 숨기기 줄 */
+.list-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 14px 0 8px; }
+.list-title { font-weight: 800; font-size: 15px; }
+
+/* 매칭 목록: 화면 폭을 모두 쓰고, 원본 순번·구분·파트 열은 가로로 밀어도 고정 */
+#tab-mapping .match-table { width: 100%; min-width: 1100px; }
+#tab-mapping .table-scroll { overflow-x: auto; }
+#tab-mapping .match-table th:nth-child(1),
+#tab-mapping .match-table td:nth-child(1) { position: sticky; left: 0; width: 70px; min-width: 70px; z-index: 2; }
+#tab-mapping .match-table th:nth-child(2),
+#tab-mapping .match-table td:nth-child(2) { position: sticky; left: 70px; width: 70px; min-width: 70px; z-index: 2; }
+#tab-mapping .match-table th:nth-child(3),
+#tab-mapping .match-table td:nth-child(3) { position: sticky; left: 140px; width: 110px; min-width: 110px; z-index: 2; box-shadow: 2px 0 0 var(--line); }
+#tab-mapping .match-table th:nth-child(1),
+#tab-mapping .match-table th:nth-child(2),
+#tab-mapping .match-table th:nth-child(3) { z-index: 4; }
+#tab-mapping .match-table td:nth-child(-n+3) { background: var(--card); }
+#tab-mapping .match-table th:nth-child(-n+3) { background: var(--bg); }
+
+/* 차량명정의 목록: 위아래 고정 없이 아래로 길게 펼쳐서 보인다 */
+.vehicle-scroll { max-height: none; overflow: visible; }
+.vehicle-table th { position: static; }
+
+/* 보험사 · 담보 · 도장코드: 세 칸을 가로로 나란히 (좁은 화면에서는 아래로 쌓인다) */
+.meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.meta-col { min-width: 0; }
+.meta-col h2 { margin-top: 0 !important; }
+@media (max-width: 760px) { .meta-grid { grid-template-columns: 1fr; } }
+
+/* 목록 제목(NO로 시작하는 머리글 줄): 아래로 스크롤해도 위에 고정 */
+.table-scroll { overflow: visible; }
+table.orders thead th { position: sticky; top: 0; z-index: 5; background: var(--bg); }
+
+.count-line { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.paint-list { max-height: none; }
+
+/* 목록 숨기기: 고른 열은 목록에서 빠진다 */
+#match-table.hide-c0 th:nth-child(1), #match-table.hide-c0 td:nth-child(1) { display: none; }
+#match-table.hide-c1 th:nth-child(2), #match-table.hide-c1 td:nth-child(2) { display: none; }
+#match-table.hide-c2 th:nth-child(3), #match-table.hide-c2 td:nth-child(3) { display: none; }
+#match-table.hide-c3 th:nth-child(4), #match-table.hide-c3 td:nth-child(4) { display: none; }
+#match-table.hide-c4 th:nth-child(5), #match-table.hide-c4 td:nth-child(5) { display: none; }
+#match-table.hide-c5 th:nth-child(6), #match-table.hide-c5 td:nth-child(6) { display: none; }
+#match-table.hide-c6 th:nth-child(7), #match-table.hide-c6 td:nth-child(7) { display: none; }
+#match-table.hide-c7 th:nth-child(8), #match-table.hide-c7 td:nth-child(8) { display: none; }
+#match-table.hide-c8 th:nth-child(9), #match-table.hide-c8 td:nth-child(9) { display: none; }
+#match-table.hide-c9 th:nth-child(10), #match-table.hide-c9 td:nth-child(10) { display: none; }
+#match-table.hide-c10 th:nth-child(11), #match-table.hide-c10 td:nth-child(11) { display: none; }
+#match-table.hide-c11 th:nth-child(12), #match-table.hide-c11 td:nth-child(12) { display: none; }
+#match-table.hide-c12 th:nth-child(13), #match-table.hide-c12 td:nth-child(13) { display: none; }
+/* 작업내역: 왼쪽 정렬, 줄바꿈으로 칸 폭을 나눈다 */
+#match-table td.c-text, #match-table th.c-text { text-align: left; white-space: normal; word-break: keep-all; }
+.col-box { width: min(440px, 100%); }
+.col-hint { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
+.col-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; max-height: 60vh; overflow: auto; }
+.col-item { display: flex; align-items: center; gap: 6px; font-size: 14px; cursor: pointer; }
+.col-box .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+
+/* 선택창(모달): 설정 화면에서 쓰는 기본 모양 */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 300; }
+.modal[hidden] { display: none; }
+.modal-box { background: var(--card); border-radius: 12px; padding: 18px; width: min(440px, 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.modal-box h3 { margin: 0 0 8px; font-size: 16px; }
+
+/* ---------- 매칭 목록: 선택 도구 · 구분 설명 · 이미지 보기 팝업 (공업사 화면과 같은 모양) ---------- */
+#tab-mapping .row { flex-wrap: wrap; }
+#tab-mapping .legend-line { font-size: 12px; color: var(--muted, #555); margin-left: 12px; white-space: nowrap; }
+/* 제목 우측 안내 문장: 두 줄로 나누지 않고 한 행으로 보인다 */
+#tab-mapping .sec-legend { display: flex; align-items: center; justify-content: flex-start; gap: 14px; white-space: nowrap; font-size: 13px; color: var(--muted, #555); margin-left: 4px; text-align: left; }
+#tab-mapping .sec-legend .legend-line,
+#tab-mapping .sec-legend .legend-note { margin: 0 !important; padding: 0; display: inline; font-size: 13px; line-height: 1.4; white-space: nowrap; text-align: left; }
+#tab-mapping .sel-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-left: auto; }
+/* 목록 제목 '선택': 누르면 모두 선택·해제 (손 모양으로 누를 수 있다는 표시) */
+/* 작업내역 제목 아래 검색란 (NO 칸과 같은 방식: 제목 위, 검색란 아래, 가운데 맞춤) */
+#tab-mapping #match-table thead th.c-text { text-align: center; }
+#tab-mapping #match-table thead th.c-text .th-search { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; white-space: nowrap; }
+#tab-mapping #match-table thead th.c-text input[type="search"] { width: 130px; font-size: 12px; font-weight: 400; padding: 2px 6px; border: 1px solid var(--line); border-radius: 5px; }
+/* 작업내역 왼쪽 NO 칸 검색란 (5번째 칸) */
+#tab-mapping #match-table thead th:nth-child(5) .th-search { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; white-space: nowrap; }
+#tab-mapping #match-table thead th:nth-child(5) input[type="search"] { width: 60px; font-size: 12px; font-weight: 400; padding: 2px 4px; border: 1px solid var(--line); border-radius: 5px; }
+/* 마우스를 올린 행에 음영: 행 전체(고정된 앞 칸 포함)가 같은 색으로 바뀐다 */
+#tab-mapping #match-table tbody tr:hover > td { background: #e6efff; }
+#tab-mapping #match-table tbody tr:hover > td.status-cell { background: #e6efff; }
+#tab-mapping #match-table thead th.sel-head { cursor: pointer; user-select: none; }
+#tab-mapping #match-table thead th.sel-head:hover { text-decoration: underline; }
+/* 선택 우측 칸: 선택값 삭제하기 단추 (줄바꿈 없이 한 줄) */
+#tab-mapping #match-table thead th.sel-del-head { white-space: nowrap; padding: 4px 6px; }
+#tab-mapping #match-table thead th.sel-del-head button { font-size: 12px; padding: 3px 8px; }
+#tab-mapping .sel-col { width: 34px; text-align: center; }
+#tab-mapping .sel-col input { width: 16px; height: 16px; cursor: pointer; }
+#tab-mapping #code-modal input[type="file"] { width: 100%; margin: 8px 0; }
+#tab-mapping td.editable[data-key="code"] { cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+
+.tip-modal .tip-box { width: min(520px, 100%); cursor: pointer; }
+.tip-modal img { display: block; max-width: 100%; max-height: 60vh; margin: 0 auto; border-radius: 6px; }
+.tip-modal #tip-caption { margin: 8px 0 0; font-size: 14px; text-align: center; }
+.tip-modal.full .tip-box { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; background: #000; display: flex; align-items: center; justify-content: center; }
+.tip-modal.full img { width: 100%; height: 100%; max-width: 100vw; max-height: 100vh; object-fit: contain; margin: 0; border-radius: 0; }
+.tip-modal.full #tip-caption { display: none; }
+
+
+/* 공업사 목록: 새 비밀번호 칸이 등록일 칸을 밀어내지 않도록 (칸 안에서 나란히, 줄어든다) */
+.shop-table td .pw-cell { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.shop-table td .pw-cell input { flex: 1 1 0; min-width: 0; max-width: 150px; box-sizing: border-box; font-size: 12px; height: 26px; padding: 0 6px; }
+.shop-table td .pw-cell button { flex: 0 0 auto; white-space: nowrap; font-size: 11px; padding: 2px 6px; }
+.shop-table td:nth-child(5) { white-space: nowrap; }
+.shop-table { table-layout: auto; }
+
+/* 매칭 상단 버튼: 엑셀·그림 업/다운로드, 목록 숨기기 모두 같은 테두리 */
+#tab-mapping .sec-tools button,
+#tab-mapping .sec-tools .file-btn {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+  border: 1px solid var(--accent, #2456a6);
+  border-radius: 6px;
+  background: var(--card, #fff);
+  color: var(--accent, #2456a6);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+#tab-mapping .sec-tools button:disabled { opacity: 0.5; cursor: default; }
+
+/* 매칭 상단 버튼: 글자 굵기와 색을 모두 같게 (비활성·버튼 기본 스타일의 차이를 없앤다) */
+#tab-mapping .sec-tools button,
+#tab-mapping .sec-tools .file-btn {
+  font-weight: 700 !important;
+  color: var(--accent, #2456a6) !important;
+  opacity: 1 !important;
+  letter-spacing: 0;
+}
+#tab-mapping .sec-tools button:disabled {
+  opacity: 1 !important;
+  color: var(--accent, #2456a6) !important;
+  border-color: var(--accent, #2456a6) !important;
+}
+
+/* 매칭 목록 머리글: 두 줄 제목, 이미지존재여부 선택 */
+#tab-mapping .orders thead th.two-line { line-height: 1.25; white-space: normal; }
+#tab-mapping .th-filter { display: inline-block; margin-top: 2px; font-weight: 600; }
+#tab-mapping .hdr-filter { margin-top: 3px; height: 24px; max-width: 150px; font-size: 12px; font-weight: 400; padding: 0 4px; border: 1px solid var(--line, #d9dee7); border-radius: 4px; background: var(--card, #fff); }
+/* 파트·주작업항목 검색 칸: 글자를 치면 아래 목록이 줄어든다 */
+#tab-mapping .sf-wrap { position: relative; display: inline-block; margin-top: 3px; vertical-align: top; }
+#tab-mapping .sf-input { width: 130px; height: 24px; font-size: 12px; font-weight: 400; padding: 0 4px; border: 1px solid var(--line, #d9dee7); border-radius: 4px; background: var(--card, #fff); color: inherit; }
+#tab-mapping .sf-list { position: absolute; top: 100%; left: 0; z-index: 50; min-width: 100%; width: max-content; max-width: 320px; max-height: 260px; overflow-y: auto; margin-top: 2px; background: var(--card, #fff); border: 1px solid var(--line, #d9dee7); border-radius: 4px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); text-align: left; }
+#tab-mapping .sf-list > div { padding: 4px 8px; font-size: 12px; font-weight: 400; white-space: nowrap; cursor: pointer; }
+#tab-mapping .sf-list > div:hover { background: #eef3fb; }
+#tab-mapping .sf-list > div.on { font-weight: 700; }
+#tab-mapping .sf-list > div.sf-empty { color: #888; cursor: default; }
+#tab-mapping .sf-list > div.sf-empty:hover { background: transparent; }
+#tab-mapping #match-filter { height: 24px; font-size: 12px; padding: 0 4px; border: 1px solid var(--line, #d9dee7); border-radius: 4px; background: var(--card, #fff); }
+
+/* 목록 숨기기: 열 숨김 (13·14번째 열 포함) */
+#match-table.hide-c13 th:nth-child(14), #match-table.hide-c13 td:nth-child(14) { display: none; }
+#match-table.hide-c14 th:nth-child(15), #match-table.hide-c14 td:nth-child(15) { display: none; }
+#col-list label { display: flex; align-items: center; gap: 8px; padding: 6px 4px; font-size: 14px; }
+#col-list input { width: 16px; height: 16px; }
+#col-list { max-height: 50vh; overflow-y: auto; border: 1px solid var(--line, #d9dee7); border-radius: 6px; padding: 6px 10px; margin: 8px 0; }
+
+/* 목록 숨기기: 숨긴 열이 적용되면 녹색 */
+#tab-mapping #list-toggle.on { background: #2e8b57 !important; border-color: #2e8b57 !important; color: #fff !important; }
+/* 상단 줄: 건수 · 구분 설명 · 녹색 주석을 같은 줄, 같은 높이·글자 크기로 */
+#tab-mapping #match-body > .row { align-items: center; }
+#tab-mapping #list-status, #tab-mapping #list-legend, #tab-mapping .legend-note { font-size: 13px; line-height: 1.4; }
+#tab-mapping #list-status { font-weight: 600; }
+#tab-mapping #list-legend { color: #2456a6; font-weight: 400; margin-left: 12px; }
+#tab-mapping .legend-note { margin-left: 10px; }
+#tab-mapping .green-note { color: #2e8b57; font-weight: 400; }
+
+/* 상단 줄: 총 건수·구분 설명·녹색 주석을 같은 기준선에 맞춘다 (상하 여백 없음) */
+#tab-mapping #match-body > .row { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin: 0 0 8px; }
+#tab-mapping #match-body > .row > .status,
+#tab-mapping #match-body > .row > .legend-line,
+#tab-mapping #match-body > .row > .legend-note { margin: 0; padding: 0; display: inline-block; vertical-align: middle; line-height: 1.4; }
+
+/* 상단 줄: 항목 사이를 글자 3칸만큼 띄운다 */
+#tab-mapping #match-body > .row > .legend-line { margin-left: 3em !important; }
+#tab-mapping #match-body > .row > .legend-note { margin-left: 3em !important; }
+
+/* 목록 제목 고정: 화면(PC)에서는 가로 스크롤 상자를 만들지 않아 머리글이 위에 붙어 있게 한다 */
+@media (min-width: 1001px) {
+  #tab-mapping .table-scroll { overflow-x: clip; }
+}
+
+/* 알림 글자: 화면 한가운데에 검은 글씨로 보인다 */
+.toast {
+  top: 50%;
+  bottom: auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 86vw;
+  padding: 14px 22px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #c9d1de;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+

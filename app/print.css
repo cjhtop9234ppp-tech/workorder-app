@@ -1,0 +1,432 @@
+/* 인쇄용 A4 작업지시서 (샘플 그림 기준). 단위는 px: 폭 794px = A4 한 장(210mm). */
+
+#print-sheet { display: none; }
+
+/* 미리 보기: 화면을 덮고 스크롤한다. 종이(.ps-paper)는 화면 폭에 맞게 줄인다 */
+#print-sheet.open {
+  display: block;
+  position: fixed;
+  top: var(--pp-bar-h, 56px);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  overflow: auto;
+  background: #e9edf3;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+#print-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  min-height: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  background: #1a2f66;
+  color: #fff;
+  font-size: 13px;
+}
+#print-bar[hidden] { display: none; }
+#print-bar button { height: 34px; padding: 0 10px; border: 0; border-radius: 6px; background: #fff; color: #1a2f66; font-size: 13px; font-weight: 700; white-space: nowrap; }
+#print-bar button.primary { background: #2fa84f; color: #fff; }
+#print-bar button:disabled { opacity: 0.6; }
+#print-bar .pp-title { font-weight: 700; white-space: nowrap; }
+/* 네 버튼은 한 줄에, 같은 크기로 나열한다 (다운로드 2개 + 공유 2개) */
+#print-bar .pp-share { display: flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; gap: 6px; margin-left: auto; }
+#print-bar .pp-share button { width: 124px; padding: 0; text-align: center; }
+
+@media (max-width: 600px) {
+  #print-bar { gap: 6px; padding: 6px 8px; }
+  #print-bar .pp-title { display: none; }
+  /* 휴대폰: 닫기 줄 아래에 네 버튼을 같은 너비로 한 줄에 나열한다 */
+  #print-bar .pp-share { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 100%; margin-left: 0; }
+  #print-bar .pp-share button { width: auto; min-width: 0; height: 36px; padding: 0 2px; font-size: 11px; }
+}
+
+/* 미리 보기 중에는 화면의 다른 내용을 가린다 */
+body.print-previewing > *:not(#print-sheet):not(#print-bar):not(#pp-status) { display: none !important; }
+
+/* 상태 문구: 막대 바로 아래에 크게 보인다 (비어 있으면 숨김) */
+#pp-status {
+  position: fixed;
+  top: var(--pp-bar-h, 56px);
+  left: 0;
+  right: 0;
+  z-index: 61;
+  margin: 0;
+  padding: 8px 12px;
+  background: #fff3c4;
+  color: #1d2430;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+#pp-status:empty { display: none; }
+
+#print-sheet .ps-paper {
+  width: 794px;
+  height: 1123px;
+  box-sizing: border-box;
+  padding: 24px 26px;
+  background: #fff;
+  color: #1d2430;
+  font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+#print-sheet.open .ps-paper { box-shadow: 0 0 0 1px #d9dee7; }
+
+/* 머리글 띠 */
+#print-sheet .ps-head {
+  display: flex;
+  align-items: center;
+  height: 86px;
+  background: #1a2f66;
+  color: #fff;
+  padding: 0 24px;
+}
+#print-sheet .ps-title {
+  flex: 1;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+#print-sheet .ps-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 300px;
+  padding-left: 22px;
+  border-left: 1px solid rgba(255, 255, 255, 0.7);
+}
+#print-sheet .ps-field { display: flex; align-items: flex-end; gap: 12px; font-size: 16px; font-weight: 600; }
+#print-sheet .ps-field span { width: 84px; white-space: nowrap; }
+#print-sheet .ps-field b {
+  flex: 1;
+  font-size: 20px;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 2px;
+}
+
+/* 추가 지시사항 */
+#print-sheet .ps-note {
+  margin-top: 12px;
+  height: 84px;
+  border: 2px solid #2f5fc4;
+  border-radius: 6px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+}
+#print-sheet .ps-note-title { color: #1a2f66; font-weight: 700; font-size: 16px; }
+#print-sheet .ps-extras { margin: 2px 0 0; padding: 0; list-style: none; font-size: 12px; columns: 2; }
+#print-sheet .ps-extras li { break-inside: avoid; }
+#print-sheet .ps-lines {
+  margin-top: 10px;
+  height: 30px;
+  border-bottom: 1px solid #2f5fc4;
+}
+
+/* 본문: 왼쪽 부위 | 가운데 차량 | 오른쪽 부위, 아래쪽 엔진·트랜스미션 | 에어백 */
+#print-sheet .ps-grid {
+  display: grid;
+  /* 좌·우 칸 폭을 같게 (가운데 차 그림 150px) */
+  grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+  margin-top: 14px;
+  align-items: start;
+}
+#print-sheet .col { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+#print-sheet .center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 14px;
+}
+/* 항목 이름이 길면 (좌·우) 표기는 아래 줄로 함께 내려간다 */
+#print-sheet td.item .nm { display: inline; }
+#print-sheet td.item .sd { white-space: nowrap; }
+#print-sheet td.item .sd.block-side { display: block; }
+#print-sheet .center .dir {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a2f66;
+  margin-bottom: 4px;
+}
+#print-sheet .center img { width: 150px; height: auto; }
+/* 에어백: 왼쪽 칸 안에서 앞·뒤 절반을 나란히 (작업·도장 칸 폭은 다른 블록과 같다) */
+#print-sheet .block.wide th,
+#print-sheet .block.wide td { font-size: 10px; }
+#print-sheet .block.wide th { white-space: nowrap; padding: 2px 2px; }
+#print-sheet .block.wide td { padding: 2px 3px; }
+#print-sheet .legend {
+  margin-top: 6px;
+  white-space: nowrap;
+  font-size: 10px;
+  color: #5a6475;
+  text-align: right;
+}
+
+/* 부위 블록 */
+#print-sheet .block {
+  border: 2px solid #1a2f66;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+#print-sheet .block-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 22px;
+  padding: 0 8px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 17px;
+  background: #1a2f66;
+}
+#print-sheet .block.teal { border-color: #0e6e78; }
+#print-sheet .block.teal .block-title { background: #0e6e78; }
+#print-sheet .block.purple { border-color: #5b2a86; }
+#print-sheet .block.purple .block-title { background: #5b2a86; }
+#print-sheet .block.gray { border-color: #3d4650; }
+#print-sheet .block.gray .block-title { background: #3d4650; }
+#print-sheet .block.indigo { border-color: #2f3590; }
+#print-sheet .block.indigo .block-title { background: #2f3590; }
+#print-sheet .block.maroon { border-color: #a4172f; }
+#print-sheet .block.maroon .block-title { background: #7a1638; }
+#print-sheet .count { font-size: 14px; font-weight: 700; }
+
+#print-sheet table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+/* 모든 블록 공통: 작업·도장 칸 폭 고정, 주작업항목 칸은 남은 폭 */
+#print-sheet col.c-work { width: 46px; }
+#print-sheet col.c-paint { width: 46px; }
+#print-sheet th,
+#print-sheet td {
+  border-top: 1px solid #d3dae8;
+  padding: 2px 4px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 10.5px;
+  line-height: 1.2;
+}
+#print-sheet th {
+  height: 18px;
+  background: #eef2fa;
+  font-weight: 700;
+  color: #1d2430;
+}
+#print-sheet td.item { text-align: left; font-weight: 600; white-space: normal; word-break: keep-all; }
+#print-sheet tr.both td { background: none; } /* 좌·우 같은 작업의 녹색 음영 제거 */
+#print-sheet td { padding: 3px 4px; font-size: 11px; line-height: 1.45; }
+#print-sheet tr td { height: 30px; }
+/* 긴 항목 이름: 글자 크기를 고정해 칸 폭이 무너지지 않게 */
+#print-sheet td.item.long { font-size: 10px; }
+#print-sheet td.none { color: #6b7585; padding: 10px; }
+
+/* 좌·우를 따로 표시할 때 */
+#print-sheet .sp { display: flex; align-items: center; justify-content: center; gap: 4px; margin: 2px 0; }
+#print-sheet .sp em { font-style: normal; font-size: 11px; color: #5a6475; }
+
+/* 작업·도장 알약 */
+#print-sheet .pill {
+  display: inline-block;
+  min-width: 40px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+}
+#print-sheet .pill { font-size: 10px; line-height: 1.3; padding: 0 3px; min-width: 40px; }
+#print-sheet .pill.red { background: #e5202e; }
+#print-sheet .pill.blue { background: #1f6fe0; }
+#print-sheet .pill.gray { background: #5b6170; }
+
+#print-sheet .ps-foot {
+  margin-top: 14px;
+  text-align: right;
+  font-size: 11px;
+  color: #5a6475;
+}
+
+@media print {
+  @page { size: A4; margin: 0; }
+  /* PC 인쇄: 공유 파일(PDF·JPG)과 같은 그림 한 장을 A4 한 장에 그대로 찍는다 */
+  html, body { margin: 0 !important; background: #fff; }
+  body > *:not(#print-image) { display: none !important; }
+  #print-image { display: block !important; position: static; }
+  #print-image img { display: block; width: 210mm; height: 297mm; }
+}
+#print-image { display: none; }
+
+#print-sheet .pill.green { background: #2fa84f; }
+
+/* 차량정보 줄 (인쇄) */
+#print-sheet .ps-info { display: grid; grid-template-columns: repeat(5, auto); justify-content: space-between; gap: 4px 12px; margin-top: 10px; padding: 6px 10px; border: 1px solid #1a2f66; border-radius: 4px; font-size: 12px; }
+#print-sheet .ps-info > div { display: flex; gap: 6px; align-items: baseline; min-width: 0; }
+
+/* 추가 지시사항: 1) 일반 · 2) 기타메모사항 (항목은 " | " 로 가로 나열) */
+#print-sheet .ps-note-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-top: 6px; font-size: 12px; }
+#print-sheet .ps-note-group > b { color: #1a2f66; white-space: nowrap; }
+#print-sheet .ps-note-group .sep { font-style: normal; color: #5a6475; }
+#print-sheet .ps-note { height: auto; min-height: 0; }
+#print-sheet .ps-title { font-size: 15px; }
+
+/* 차량명·차량번호: 한 행에 나란히 (칸을 적게 차지하도록) */
+#print-sheet .ps-meta { flex-direction: row; width: auto; gap: 18px; padding-left: 16px; }
+#print-sheet .ps-meta .ps-field b { flex: 0 1 auto; font-size: 16px; }
+#print-sheet .ps-info span { color: #5a6475; font-weight: 600; white-space: nowrap; }
+#print-sheet .ps-info b { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- 인쇄 시트 정리: 제목 박스 하나에 차량·차량정보, 글자 크기 통일 ---------- */
+#print-sheet .ps-head {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 16px 8px;
+}
+#print-sheet .ps-top { display: flex; align-items: center; gap: 16px; }
+#print-sheet .ps-title { flex: 1; font-size: 30px; font-weight: 800; letter-spacing: 1px; }
+#print-sheet .ps-meta { display: flex; flex-direction: row; gap: 16px; width: auto; padding-left: 0; border-left: none; }
+#print-sheet .ps-field,
+#print-sheet .ps-field span,
+#print-sheet .ps-field b { font-size: 13px; font-weight: 600; }
+#print-sheet .ps-field { gap: 4px; align-items: center; }
+#print-sheet .ps-field b { flex: none; border-bottom: none; padding-bottom: 0; }
+
+/* 차량정보: 제목 박스 안 한 행 (같은 글자 크기, 밑줄 없음) */
+#print-sheet .ps-info {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin: 0;
+  padding: 6px 0 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  font-size: 13px;
+  color: #fff;
+}
+#print-sheet .ps-info > div { gap: 4px; align-items: center; }
+#print-sheet .ps-info span { color: #fff; font-weight: 600; font-size: 13px; }
+#print-sheet .ps-info b { font-size: 13px; font-weight: 600; color: #fff; }
+
+/* 추가 지시사항: 1) 일반 · 2) 기타메모사항 — 두 줄의 시작 위치를 맞추고, 값 사이는 중간점 */
+#print-sheet .ps-note { padding: 8px 12px; }
+#print-sheet .ps-note-group {
+  display: grid;
+  grid-template-columns: 7.5em 1fr;
+  align-items: start;
+  gap: 2px 8px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+#print-sheet .ps-note-group > b { color: #1a2f66; white-space: nowrap; }
+#print-sheet .ps-note-group > span,
+#print-sheet .ps-note-group > .ps-items { display: block; }
+#print-sheet .ps-note-group .sep { font-style: normal; color: #5a6475; padding: 0 0.2em; }
+#print-sheet .ps-note-group > span { display: inline; }
+
+/* 차 그림 위 말풍선 태그 (교환 빨강, 판금 파랑) */
+#print-sheet .car-wrap { position: relative; width: 150px; margin: 0 auto; }
+#print-sheet .car-wrap img { display: block; width: 100%; height: auto; }
+#print-sheet .car-tag {
+  position: absolute; transform: translate(-50%, -50%);
+  padding: 1px 6px; border-radius: 999px; color: #fff;
+  font-size: 9px; font-weight: 700; line-height: 1.4; white-space: nowrap;
+  box-shadow: 0 0 0 1px #fff;
+}
+#print-sheet .car-tag.red { background: #e5202e; }
+#print-sheet .car-tag.blue { background: #1f6fe0; }
+#print-sheet .car-stem { position: absolute; width: 1px; transform: translateX(-50%); }
+#print-sheet .car-stem.red { background: #e5202e; }
+#print-sheet .car-stem.blue { background: #1f6fe0; }
+#print-sheet .car-dot { position: absolute; width: 5px; height: 5px; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 0 1px #fff; }
+#print-sheet .car-dot.red { background: #e5202e; }
+#print-sheet .car-dot.blue { background: #1f6fe0; }
+
+/* 인쇄 제목 줄 차량 정보: "차량명 [차량명]      차량번호 [차량번호]" 한 줄, 글자 크기는 모두 같게 */
+#print-sheet .ps-meta { display: flex; flex-direction: row; align-items: baseline; gap: 36px; width: auto; padding-left: 0; border-left: none; }
+#print-sheet .ps-meta .ps-field,
+#print-sheet .ps-meta .ps-field span,
+#print-sheet .ps-meta .ps-field b { font-size: 13px; font-weight: 600; white-space: nowrap; }
+#print-sheet .ps-meta .ps-field { gap: 6px; } /* 라벨과 [값] 사이를 한 칸 띄운다 */
+
+/* 인쇄 제목 오른쪽 차량 정보: 오른쪽 끝에 맞추고, 라벨과 [값]은 붙여서 쓴다 */
+#print-sheet .ps-meta { margin-left: auto; justify-content: flex-end; }
+#print-sheet .ps-meta .ps-field { gap: 2px; }
+#print-sheet .ps-top { width: 100%; }
+
+/* 차량명·차량번호: 라벨과 [값]을 붙이고, 차량번호 끝을 도장코드 끝에 맞춘다 */
+#print-sheet .ps-meta .ps-field { gap: 0; }
+#print-sheet .ps-meta { margin-right: 0; }
+#print-sheet .ps-info { margin-left: auto; justify-content: flex-end; }
+
+/* 차량명·차량번호 간격을 좁히고, 입고일 줄은 왼쪽(제목 시작점)과 오른쪽(도장코드 끝) 끝에 맞춘다 */
+#print-sheet .ps-meta { gap: 14px; }
+#print-sheet .ps-info { justify-content: space-between; margin-left: 0; }
+#print-sheet .ps-info { width: 100%; }
+
+/* 차량명·차량번호 라벨: 우측 정렬 */
+#print-sheet .ps-meta .ps-field span { text-align: right; justify-content: flex-end; }
+
+/* 1) 일반 · 2) 기타메모사항: 라벨은 보라, 내용은 진한 검정 볼드, 구분선은 보라 */
+#print-sheet .ps-note-group > b { color: #7a3ec0; font-weight: 800; }
+#print-sheet .ps-note-group .ps-items span { color: #111; font-weight: 700; }
+/* 수정으로 추가된 1) 일반 · 2) 기타메모 항목은 녹색 (위 규칙보다 우선) */
+#print-sheet .ps-note-group .ps-items span.added { color: #1e9e3e; font-weight: 800; }
+#print-sheet .ps-note-group .sep { color: #7a3ec0; font-weight: 800; padding: 0 0.35em; font-style: normal; }
+
+/* 차량명·차량번호: 우측 정렬 상태에서 라벨과 [값] 사이를 한 칸(공백 한 개) 띄운다 */
+#print-sheet .ps-meta .ps-field { gap: 4px; }
+
+/* 1) 일반 · 2) 기타메모사항 박스: 연보라 바탕, 보라 테두리 */
+#print-sheet .ps-note { background: #faf7ff; border: 2px solid #7a3ec0; border-radius: 10px; }
+
+/* 차 그림 위에는 말풍선 태그(교환·판금)만 보인다: 막대(stem)와 점(dot)은 노출하지 않는다 */
+#print-sheet .car-stem,
+#print-sheet .car-dot { display: none; }
+
+/* 주작업항목 글자가 옆 작업 알약을 넘어가지 않게: 칸 안에서 줄을 바꾼다 */
+#print-sheet td.item { word-break: break-all; overflow-wrap: anywhere; padding-right: 4px; }
+
+/* 차 그림에 남아 있던 자국(옆면 청록 자국, 뒤쪽 점, 지붕 점, 앞쪽 선)을 종이 흰색으로 가린다 (그림 파일 자체는 그대로) */
+#print-sheet .car-wrap { position: relative; }
+#print-sheet .car-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 3.5% 2% at 26.3% 2.1%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 72.4% 2.1%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 6.6% 43.6%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 6.6% 63.4%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 92.1% 44.2%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 92.1% 63.4%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 49.1% 94.9%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 85.5% 97.3%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 93% 82.8%, #fff 96%, transparent 100%),
+    radial-gradient(ellipse 3.5% 2% at 49.1% 53%, #fff 96%, transparent 100%);
+}
+#print-sheet .car-tag { z-index: 2; }
+
+/* 차량번호·차량명 줄은 끊기지 않게 한 줄로 (인쇄 미리보기에서 끝이 잘리지 않도록) */
+#print-sheet .ps-top { flex-wrap: nowrap; }
+#print-sheet .ps-meta { white-space: nowrap; flex: 0 0 auto; }
+#print-sheet .ps-meta .ps-field { white-space: nowrap; }

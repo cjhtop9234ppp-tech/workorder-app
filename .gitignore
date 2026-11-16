@@ -1,0 +1,16 @@
+# 생성물과 원본 자료 (저장소에 넣지 않는다)
+app/data.js
+app/img/
+build/
+dist/
+installer_output/
+*.xlsx
+*.xls
+
+# 도구·캐시
+__pycache__/
+*.pyc
+.wrangler/
+node_modules/
+.env
+*.log

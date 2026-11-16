@@ -1,0 +1,1 @@
+ALTER TABLE orders ADD COLUMN dept_new TEXT NOT NULL DEFAULT '';

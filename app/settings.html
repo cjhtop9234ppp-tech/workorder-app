@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko" class="booting">
+<head>
+  <meta charset="utf-8">
+  <!-- 최종 화면(자료를 다 받아 그린 뒤)만 한 번에 보이도록 기다린다. 안전장치: 6초 뒤에는 무조건 보인다 -->
+  <script>setTimeout(function () { document.documentElement.classList.remove("booting"); }, 6000);</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>설정</title>
+  <!-- 탭(페이지)을 옮길 때 기다리지 않도록 작업지시서 화면과 목록을 미리 받아 둔다 -->
+  <link rel="prefetch" href="index.html">
+  <link rel="prefetch" href="overview.html">
+  <link rel="prefetch" href="data.js">
+  <link rel="prefetch" href="order-tools.js">
+  <link rel="prefetch" href="app.js">
+  <link rel="prefetch" href="print.js">
+  <link rel="stylesheet" href="overview.css">
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <header class="top">
+    <h1>설정 <span class="ver" id="ver"></span></h1>
+    <div class="top-links">
+      <span class="who" id="who"></span>
+      <a class="back" href="overview.html">작업지시서 목록</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="status" id="denied" hidden>마스터 계정만 이 설정을 사용할 수 있습니다.</p>
+
+    <div id="settings-body" hidden>
+      <nav class="tabs" aria-label="설정 메뉴">
+        <button type="button" class="tab" data-tab="shops">공업사 등록</button>
+        <button type="button" class="tab" data-tab="vehicles">차량명정의</button>
+        <button type="button" class="tab on" data-tab="mapping">착안점(복원수리) 그림이미지 매칭</button>
+        <button type="button" class="tab" data-tab="meta">보험사·담보·도장코드</button>
+        <button type="button" class="tab" data-tab="memo-common">기타메모사항</button>
+      </nav>
+
+      <!-- (1) 주작업항목 그림이미지 매칭: 엑셀·그림 업/다운로드(오른쪽 줄), 목록 숨기기 가능 -->
+      <section class="card panel" id="tab-mapping">
+        <div class="sec-head">
+          <h2>착안점(복원수리) 그림이미지 매칭</h2>
+          <div class="sec-legend">
+            <span class="legend-line" id="list-legend"></span>
+            <span class="legend-note" id="list-note"><span class="green-note">목록 숨기기 녹색 = 숨긴 열이 적용된 상태</span></span>
+          </div>
+          <div class="sec-tools">
+            <button type="button" id="order-open">보기순서 변경</button>
+            <button type="button" class="file-btn" id="mapping-upload-btn">엑셀 업로드</button><input type="file" id="mapping-file" accept=".xlsx,.xls" hidden>
+            <button type="button" id="mapping-download">엑셀 다운로드</button>
+            <button type="button" class="file-btn" id="image-upload-btn">그림 업로드</button><input type="file" id="image-files" accept="image/*" multiple hidden>
+            <button type="button" id="image-download">그림 다운로드 (zip)</button>
+            <button type="button" id="list-toggle">목록 숨기기</button>
+          </div>
+        </div>
+        <span id="image-count" hidden>-</span>
+        <p class="status" id="mapping-status" aria-live="polite"></p>
+        <p class="status" id="image-status" aria-live="polite"></p>
+        <div id="match-body">
+          <div class="row">
+            <span class="status" id="list-status" aria-live="polite"></span>
+            <span class="sel-tools">
+              <span class="status" id="sel-count"></span>
+              <span class="status del-status" id="del-status" aria-live="polite"></span>
+            </span>
+          </div>
+
+        <div class="table-scroll">
+          <table class="orders match-table" id="match-table">
+            <thead>
+              <tr>
+                <th>NO</th>
+                <th class="two-line">구분<br><select id="group-filter" class="hdr-filter" aria-label="구분 선택"><option value="">전체</option></select></th>
+                <th class="two-line">파트<br><select id="part-filter" class="hdr-filter" aria-label="파트 선택"><option value="">전체</option></select></th>
+                <th class="two-line">주작업항목<br><select id="item-filter" class="hdr-filter" aria-label="주작업항목 선택"><option value="">전체</option></select></th>
+                <th><span class="th-search">NO <input type="search" id="no-q" placeholder="검색" aria-label="NO 검색" autocomplete="off" inputmode="numeric"></span></th>
+                <th class="c-text"><span class="th-search">작업내역 <input type="search" id="text-q" placeholder="검색" aria-label="작업내역 검색" autocomplete="off"></span></th>
+                <th>작업</th>
+                <th>수량/시간</th>
+                <th>부품액</th>
+                <th>공임</th>
+                <th class="two-line">그림이미지<br>코드</th>
+                <th class="two-line">이미지<br><span class="th-filter">존재여부 <select id="match-filter" aria-label="이미지존재여부 선택"><option value="all">전체</option><option value="match">매칭</option><option value="nomatch">비매칭</option></select></span></th>
+                <th>이미지보기</th>
+                <th class="sel-col sel-head" id="sel-head" title="클릭: 모두 선택 · 다시 클릭: 선택 해제">선택</th>
+                <th class="sel-del-head"><button type="button" id="sel-delete">선택값 삭제하기</button></th>
+              </tr>
+            </thead>
+            <tbody id="match-rows"></tbody>
+          </table>
+        </div>
+        </div>
+      </section>
+
+      <!-- 그림이미지코드 클릭: 해당 작업내역의 그림을 올리는 창 -->
+      <div class="modal" id="code-modal" hidden>
+        <div class="modal-box" role="dialog" aria-labelledby="code-upload-title">
+          <h3 id="code-upload-title"></h3>
+          <p>그림이미지코드: <b id="code-upload-code"></b></p>
+          <input type="file" id="code-upload-file" accept="image/*">
+          <p class="status" id="code-upload-status" aria-live="polite"></p>
+          <div class="modal-actions">
+            <button type="button" class="primary" id="code-upload-go">업로드</button>
+            <button type="button" id="code-upload-close">닫기</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 이미지보기: 공업사 화면과 같은 그림 팝업 -->
+      <div class="modal tip-modal" id="tip-modal" hidden>
+        <div class="modal-box tip-box">
+          <img id="tip-image" alt="">
+          <p id="tip-caption"></p>
+        </div>
+      </div>
+
+
+      <!-- 목록 숨기기: 숨길 열을 고르는 선택창 -->
+      <div class="modal" id="col-modal" hidden>
+        <div class="modal-box col-box" role="dialog" aria-labelledby="col-title">
+          <h3 id="col-title">숨길 열 선택</h3>
+          <p class="col-hint">체크한 열은 목록에서 빠집니다. 체크를 풀면 다시 보입니다.</p>
+          <div class="col-list" id="col-list"></div>
+          <div class="modal-actions">
+            <button type="button" id="col-all">모두 보이기</button>
+            <button type="button" id="col-cancel">취소</button>
+            <button type="button" class="primary" id="col-apply">적용</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- (5) 보험사·담보 (직접 추가) · 도장코드 (엑셀 업로드) -->
+      <section class="card panel" id="tab-meta" hidden>
+        <div class="meta-grid">
+          <div class="meta-col">
+        <h2>보험사</h2>
+        <div class="row">
+          <input type="text" id="insurer-new" placeholder="보험사 이름" maxlength="40">
+          <button type="button" id="insurer-add">추가</button>
+        </div>
+        <ul class="opt-list" id="insurer-list"></ul>
+        <p class="count-line">전체 <b id="insurer-count">0</b>개</p>
+          </div>
+          <div class="meta-col">
+        <h2>담보</h2>
+        <div class="row">
+          <input type="text" id="coverage-new" placeholder="담보 이름" maxlength="40">
+          <button type="button" id="coverage-add">추가</button>
+        </div>
+        <ul class="opt-list" id="coverage-list"></ul>
+        <p class="count-line">전체 <b id="coverage-count">0</b>개</p>
+          </div>
+          <div class="meta-col">
+        <h2>도장코드</h2>
+        <div class="row">
+          <button type="button" id="paint-template">업로드 양식 다운로드</button>
+          <label class="file-btn">도장코드 엑셀 업로드 <input type="file" id="paint-file" accept=".xlsx,.xls" hidden></label>
+        </div>
+        <p class="status" id="paint-status" aria-live="polite"></p>
+        <ul class="opt-list paint-list" id="paint-list"></ul>
+        <p class="count-line">전체 <b id="paint-count">-</b>개</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 차량명정의: 엑셀(CSV) 업로드 = 작업지시서 차량명 목록 전체 -->
+      <section class="card panel" id="tab-vehicles" hidden>
+        <div class="sec-head">
+          <h2>차량명정의</h2>
+          <div class="sec-tools">
+            <label class="file-btn">엑셀 업로드 <input type="file" id="vehicle-file" accept=".csv,text/csv" hidden></label>
+            <button type="button" id="vehicle-download">엑셀 다운로드</button>
+          </div>
+        </div>
+        <p class="count-line">전체 차량명 <b id="vehicle-count">-</b>개</p>
+        <p class="status" id="vehicle-status" aria-live="polite"></p>
+        <div class="table-scroll vehicle-scroll">
+          <table class="orders vehicle-table">
+            <thead><tr><th>NO</th><th>차량명</th><th>그룹명</th><th>유형</th><th>차량급</th><th>제작사</th><th>작업항목수</th></tr></thead>
+            <tbody id="vehicle-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 기타메모사항: 공업사 모드의 '기타메모사항 입력'과 같은 방식. 여기서 저장하면 모든 공업사에 적용된다 -->
+      <section class="card panel" id="tab-memo-common" hidden>
+        <h2>기타메모사항 (전체 공업사 공통)</h2>
+        <div class="memo-new row">
+          <label>신설(주작업항목) <select id="memo-new-item"></select></label>
+          <input type="text" id="memo-new-text" placeholder="기타메모 내용" maxlength="200">
+          <button type="button" id="memo-new-add">추가</button>
+        </div>
+        <div class="table-scroll">
+          <table class="orders memo-table">
+            <thead><tr><th class="no-col">NO</th><th>설정된 주작업항목</th><th>내용</th><th></th></tr></thead>
+            <tbody id="memo-bank-rows"></tbody>
+          </table>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button type="button" id="memo-row-add">행 추가</button>
+          <button type="button" class="primary" id="memo-common-save">저장</button>
+          <span class="status" id="memo-status" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <!-- (4) 공업사 등록: 등록·아이디/비밀번호 수정·삭제 -->
+      <section class="card panel" id="tab-shops" hidden>
+        <h2>공업사 등록</h2>
+        <form id="shop-form" class="shop-form">
+          <label>공업사명<input id="shop-name" type="text" maxlength="40" required></label>
+          <label>아이디<input id="shop-id" type="text" maxlength="30" autocomplete="off" placeholder="영문 소문자·숫자·_ 3~30자" required></label>
+          <label>비밀번호<input id="shop-pw" type="password" minlength="8" autocomplete="new-password" placeholder="8자 이상" required></label>
+          <button type="submit" class="primary">등록</button>
+        </form>
+        <p class="status" id="shop-status" aria-live="polite"></p>
+        <div class="table-scroll">
+          <table class="orders shop-table">
+            <thead><tr><th>NO</th><th>공업사명</th><th>아이디</th><th>새 비밀번호</th><th>등록일</th><th></th></tr></thead>
+            <tbody id="shop-rows"></tbody>
+          </table>
+        </div>
+
+        <h2 style="margin-top:24px">마스터 비밀번호 바꾸기</h2>
+        <form id="master-pw-form" class="shop-form">
+          <label>현재 비밀번호<input id="master-pw-current" type="password" autocomplete="current-password" required></label>
+          <label>새 비밀번호<input id="master-pw-next" type="password" minlength="8" autocomplete="new-password" placeholder="8자 이상" required></label>
+          <label>새 비밀번호 확인<input id="master-pw-next2" type="password" minlength="8" autocomplete="new-password" required></label>
+          <button type="submit" class="primary">비밀번호 바꾸기</button>
+        </form>
+        <p class="status" id="master-pw-status" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" hidden>복사되었습니다</div>
+  </main>
+
+  <script src="perf.js"></script>
+  <script src="version.js"></script>
+  <script src="auth.js"></script>
+  <script src="sample-order.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

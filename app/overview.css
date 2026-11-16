@@ -1,0 +1,1016 @@
+:root {
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --line: #d9dee7;
+  --text: #1d2430;
+  --muted: #6b7585;
+  --accent: #2456a6;
+  --accent-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171c;
+    --card: #1d2229;
+    --line: #353d49;
+    --text: #e6eaf0;
+    --muted: #9aa5b5;
+    --accent: #7fb0ff;
+    --accent-text: #14171c;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #14171c;
+  --card: #1d2229;
+  --line: #353d49;
+  --text: #e6eaf0;
+  --muted: #9aa5b5;
+  --accent: #7fb0ff;
+  --accent-text: #14171c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Malgun Gothic", system-ui, sans-serif;
+  font-size: 15px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.top h1 { margin: 0; font-size: 18px; }
+.ver { font-size: 12px; color: var(--muted); font-weight: 400; }
+.back { color: var(--accent); text-decoration: none; font-size: 14px; white-space: nowrap; }
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.search {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.search .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.search .row + .row { margin-top: 10px; }
+
+.search label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.search label.period {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.search input {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 140px;
+}
+
+button {
+  padding: 9px 16px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.status {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+table.orders {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px; /* 검색 버튼 글자 크기와 같다 */
+}
+
+table.orders th,
+table.orders td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+table.orders th { background: var(--bg); font-weight: 600; }
+table.orders tbody tr:last-child td { border-bottom: none; }
+
+a.open {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .search input { min-width: 0; width: 100%; }
+  .search label { width: 100%; }
+  .search label.period input { width: auto; flex: 1; }
+  table.orders th, table.orders td { padding: 8px 6px; font-size: 12px; }
+}
+
+.top-links { display: flex; align-items: center; gap: 12px; }
+.who { font-size: 13px; color: var(--muted); font-weight: 700; }
+.linkish {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.card h2 { margin: 0 0 10px; font-size: 16px; }
+.card .hint { font-size: 12px; color: var(--muted); font-weight: 400; }
+
+.shop-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.shop-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.shop-form input {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 160px;
+}
+
+.card table.orders { margin-top: 10px; }
+
+/* 검색 조건: 한 줄에 가로로 놓는다 */
+.search .row.one-line,
+.search form .row { flex-wrap: nowrap; }
+.search label.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.search label.inline input { min-width: 0; width: auto; }
+.search label[hidden] { display: none; } /* 공업사 계정: 공업사명 칸 숨김 (label 의 display 가 hidden 을 덮지 않도록) */
+.search select { font-size: 12px; height: 30px; padding: 0 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); }
+.search #plate-q, .search #vehicle-q { width: 130px; }
+.search #shop-q { width: 110px; }
+.search #date-from, .search #date-to { width: 128px; }
+.search button { white-space: nowrap; height: 38px; padding: 0 14px; }
+@media (max-width: 700px) {
+  .search .row { flex-wrap: wrap; }
+}
+
+/* 검색 한 줄: 글자와 칸을 줄여 한 행에 들어가게 */
+.search .row { flex-wrap: wrap; gap: 8px; }
+.search label.inline { font-size: 12px; gap: 4px; }
+.search input { font-size: 12px; padding: 5px 7px; min-width: 0; }
+.search label.inline input { height: 30px; box-sizing: border-box; }
+.search #date-from, .search #date-to,
+.search #in-from, .search #in-to, .search #out-from, .search #out-to { width: 96px; }
+.search #shop-q { width: 100px; }
+.search #insurer-q, .search #coverage-q, .search #paint-q { width: 90px; }
+.search #plate-q { width: 100px; }
+.search #vehicle-q { width: 90px; }
+.search button { height: 30px; padding: 0 12px; font-size: 12px; }
+
+/* 목록: 상단 설명 줄 (오른쪽 주석), 수정 후 저장된 항목의 보기 버튼은 갈색 음영 */
+.status-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.list-note { font-size: 12px; color: var(--muted); text-align: right; }
+a.open.revised { background: #8b5a2b; border-color: #8b5a2b; color: #fff; }
+
+/* 목록 페이지 나누기 */
+.pager { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 12px 0 24px; font-size: 13px; }
+.pager button { padding: 6px 12px; font-size: 13px; }
+
+/* 휴대폰: NO 값을 항상 보이고, 칸 사이 간격을 줄여 목록 전체가 한 화면에 들어가게 한다 */
+@media (max-width: 1000px) {
+  table.orders { table-layout: fixed; width: 100%; font-size: 11px; }
+  table.orders th,
+  table.orders td { padding: 6px 1px; white-space: normal; word-break: break-all; line-height: 1.3; }
+  table.orders th:last-child { white-space: normal; }
+  table.orders td:last-child { padding-left: 1px; padding-right: 1px; }
+  a.open { padding: 3px 4px; font-size: 11px; }
+}
+
+/* 휴대폰 목록 열 폭 (머리글과 칸에 같은 이름표를 쓴다) */
+@media (max-width: 1000px) {
+  .wrap { padding: 10px 8px; }
+  table.orders thead th.c-no { width: 18px; }
+  table.orders thead th.c-date { width: 32px; }
+  table.orders thead th.c-shop { width: 30px; }
+  table.orders thead th.c-ins { width: 22px; }
+  table.orders thead th.c-cov { width: 22px; }
+  table.orders thead th.c-plate { width: 46px; }
+  table.orders thead th.c-veh { width: 46px; }
+  table.orders thead th.c-paint { width: 22px; }
+  table.orders thead th.c-open { width: 46px; }
+}
+
+/* PC: 목록 화면이 창 폭에 따라 늘고 줄게 한다 (고정 980px 폭을 없앰) */
+.wrap { max-width: none; width: 100%; box-sizing: border-box; }
+.table-scroll { width: 100%; }
+table.orders { width: 100%; }
+@media (min-width: 1001px) {
+  table.orders th, table.orders td { padding: 10px 8px; }
+}
+
+/* PC(폭 1001px 이상): 목록 화면의 글자 크기를 모두 1px씩 키운다 */
+@media (min-width: 1001px) {
+  body { font-size: 16px; }
+  .top h1 { font-size: 19px; }
+  .ver { font-size: 13px; }
+  .back { font-size: 15px; }
+  .who { font-size: 14px; }
+  .top-links .linkish, .linkish { font-size: 15px; }
+  .search label, .search label.inline { font-size: 13px; }
+  .search input { font-size: 13px; }
+  .search select { font-size: 13px; }
+  .search button, button { font-size: 15px; }
+  .card h2 { font-size: 17px; }
+  .card .hint { font-size: 13px; }
+  .status { font-size: 14px; }
+  .list-note { font-size: 13px; }
+  table.orders { font-size: 13px; }
+  .pager { font-size: 14px; }
+  .pager button { font-size: 14px; }
+}
+
+/* PC: 검색 목록을 한 줄로 (휴대폰은 기존처럼 두 줄) */
+@media (min-width: 1280px) {
+  .search { display: flex; flex-wrap: nowrap; align-items: center; gap: 10px; }
+  .search .row { display: contents; }
+  .search .row > * { flex: 0 0 auto; }
+}
+@media (min-width: 601px) and (max-width: 1000px) {
+  .search { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+  .search .row { display: contents; }
+}
+
+/* 검색 칸: 📅·선택 버튼과 자동검색 목록 */
+.date-field, .pick-field, .suggest-field { position: relative; display: inline-flex; align-items: center; gap: 4px; }
+.cal-btn, .pick-btn { height: 30px; padding: 0 8px; font-size: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--accent); cursor: pointer; }
+.cal-btn { padding: 0 6px; }
+.suggest-field { display: inline-block; }
+.suggest-field > input { width: 100%; box-sizing: border-box; }
+.ac-list { position: absolute; left: 0; top: 100%; z-index: 350; min-width: 100%; max-height: 260px; overflow-y: auto; margin-top: 2px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+.ac-item { display: block; width: 100%; padding: 7px 10px; border: none; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.ac-item:hover { background: #eef3fb; }
+.pick-pop { position: fixed; z-index: 400; min-width: 180px; max-height: 320px; overflow-y: auto; padding: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.pick-item { display: block; width: 100%; padding: 7px 10px; border: none; border-radius: 6px; background: transparent; color: var(--text); text-align: left; font-size: 13px; cursor: pointer; }
+.pick-item:hover { background: #eef3fb; }
+.pick-empty { margin: 6px 8px; font-size: 12px; color: var(--muted); }
+
+/* 목록 수정 칸: 수정·저장·삭제 버튼과 수정 중 입력 칸 */
+/* 수정 칸 단추: 클래식 블루 (수정 = 흰 바탕·파란 테두리, 저장 = 파란 바탕·흰 글씨, 삭제 = 흰 바탕·빨간 테두리·빨간 글씨) */
+.row-btn { height: 26px; padding: 0 8px; margin: 1px; font-size: 12px; border: 1px solid #2563eb; border-radius: 8px; background: #fff; color: #2563eb; cursor: pointer; }
+.row-btn:disabled { opacity: 0.4; cursor: default; }
+.row-btn.primary { background: #2563eb; border-color: #2563eb; color: #fff; }
+/* 저장 버튼은 수정 전(비활성)에도 항상 지정한 파란색으로 보인다 (흐리게 하지 않는다) */
+.row-btn.primary:disabled { opacity: 1; background: #2563eb; border-color: #2563eb; color: #fff; cursor: default; }
+.row-btn.danger { color: #2563eb; border-color: #2563eb; }
+.c-edit { white-space: nowrap; }
+.edit-field { display: inline-flex; align-items: center; gap: 2px; position: relative; max-width: 100%; }
+.edit-input { width: 100px; box-sizing: border-box; height: 26px; padding: 2px 4px; font-size: 12px; border: 1px solid var(--line); border-radius: 5px; }
+td.c-plate .edit-input, td.c-vehicle .edit-input { width: 120px; }
+.edit-field.suggest-field { display: inline-block; }
+/* 수정 중에도 행이 넓어지지 않도록: 입력 칸은 칸 폭 안에서만 줄어들고 넘치지 않는다 */
+table.orders td .edit-field { display: flex; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; overflow: hidden; }
+table.orders td .edit-field.suggest-field { display: flex; }
+table.orders td .edit-input,
+table.orders td.c-plate .edit-input,
+table.orders td.c-vehicle .edit-input { width: auto; flex: 1 1 0; min-width: 0; max-width: 100%; }
+table.orders td .edit-field .cal-btn,
+table.orders td .edit-field .pick-btn { flex: 0 0 auto; padding: 0 3px; height: 26px; font-size: 11px; }
+.confirm-overlay { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); padding: 16px; }
+.confirm-box { width: min(340px, 100%); padding: 18px; border-radius: 12px; background: var(--card); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.confirm-box p { margin: 0 0 14px; white-space: pre-line; line-height: 1.5; }
+.confirm-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.confirm-actions button { height: 32px; padding: 0 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); cursor: pointer; }
+.confirm-actions button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* 검색 목록 두 줄 (갤럭시 Z 폴드 펼침 화면 등 폭 601~1279px): 첫 줄 기간·보험사·담보, 둘째 줄 차량번호·차량명·도장코드·검색·초기화 */
+@media (min-width: 601px) and (max-width: 1279px) {
+  .search { display: block; }
+  .search .row { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .search .row:last-of-type { margin-bottom: 0; }
+  .search .row > * { flex: 0 0 auto; }
+  .search label.inline { font-size: 12px; gap: 3px; white-space: nowrap; }
+  .search input, .search select { font-size: 12px; padding: 5px 6px; }
+  .search label.inline input { width: 96px; }
+  .search #date-from, .search #date-to { width: 92px; }
+  .search select#date-kind { width: 70px; }
+  .search #plate-q { width: 110px; }
+  .search #vehicle-q { width: 110px; }
+  .search #paint-q { width: 84px; }
+  .search button { height: 30px; padding: 0 10px; font-size: 12px; }
+  .cal-btn, .pick-btn { height: 28px; font-size: 11px; padding: 0 5px; }
+}
+
+/* 검색 두 줄이 화면 폭을 넘지 않게: 칸과 글자가 화면 폭에 맞춰 함께 줄고 늘어난다 */
+@media (min-width: 601px) and (max-width: 1279px) {
+  .search { font-size: clamp(10px, 1.25vw, 13px); }
+  .search .row { flex-wrap: nowrap; width: 100%; box-sizing: border-box; }
+  .search .row > label.inline { flex: 1 1 auto; min-width: 0; }
+  .search .row > button { flex: 0 1 auto; min-width: 0; }
+  .search label.inline { font-size: clamp(10px, 1.25vw, 13px); }
+  .search label.inline input,
+  .search label.inline select,
+  .search label.inline .date-field input,
+  .search label.inline .pick-field input,
+  .search label.inline .suggest-field input,
+  .search select#date-kind { width: 100%; min-width: 0; flex: 1 1 0; box-sizing: border-box; font-size: clamp(10px, 1.25vw, 13px); }
+  .search .date-field, .search .pick-field, .search .suggest-field { flex: 1 1 auto; min-width: 0; width: 100%; }
+  .search .date-field input { width: 100%; }
+  .search .cal-btn, .search .pick-btn { flex: 0 0 auto; height: auto; min-height: 26px; font-size: clamp(9px, 1.1vw, 11px); padding: 0 4px; }
+  .search button { font-size: clamp(10px, 1.25vw, 13px); padding: 0 clamp(6px, 1vw, 10px); height: auto; min-height: 28px; }
+  .search .ac-list { min-width: 100%; }
+}
+
+/* 휴대폰·폴드 목록: 고정 칸 폭을 없애고, 화면 폭에 맞춰 글자와 칸이 함께 줄고 늘어 모든 칸이 한 화면에 보이게 한다 */
+@media (max-width: 1000px) {
+  table.orders { table-layout: auto; width: 100%; font-size: clamp(8px, 1.9vw, 12px); }
+  table.orders th,
+  table.orders td { width: auto; padding: 4px 2px; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; line-height: 1.3; font-size: inherit; }
+  table.orders td.c-veh { white-space: normal; font-size: inherit; }
+  table.orders td.c-edit { white-space: normal; }
+  .row-btn { height: auto; min-height: 22px; padding: 1px 3px; font-size: clamp(8px, 1.7vw, 11px); }
+  a.open { padding: 2px 3px; font-size: inherit; }
+  .edit-input { width: 100%; min-width: 0; font-size: inherit; height: auto; }
+  .edit-field { width: 100%; }
+  .wrap { padding: 8px 6px; }
+}
+
+/* 폴드 펼침·휴대폰: 수정·보기 칸은 버튼 크기만큼만 쓰고, 남는 폭은 내용 칸들이 나눠 쓴다 (칸 균형) */
+@media (max-width: 1000px) {
+  table.orders th.c-edit, table.orders td.c-edit,
+  table.orders th.c-open, table.orders td.c-open { width: 1%; white-space: nowrap; }
+  table.orders td.c-edit .row-btn { display: block; width: 100%; margin: 2px 0; }
+  table.orders td.c-edit { min-width: 0; }
+}
+table.orders th.c-open { white-space: normal; }
+
+/* 휴대폰·폴드 목록: 수정·저장은 한 줄에, 삭제는 그 아래 줄에 */
+@media (max-width: 1000px) {
+  table.orders td.c-edit .row-btn { display: inline-block; width: auto; margin: 1px; }
+  table.orders td.c-edit .row-btn.danger { display: block; width: 100%; }
+  table.orders th.c-open { white-space: normal; }
+}
+
+/* 휴대폰·폴드 목록: 생성일·입고일·출고일 칸을 조금 넓히고 날짜가 붙지 않게 한다 (나머지 칸은 자동으로 줄어든다) */
+@media (max-width: 1000px) {
+  table.orders th.c-date, table.orders td.c-date { width: 16%; white-space: nowrap; word-break: normal; }
+}
+
+/* PC: 수정·저장은 한 줄에, 삭제는 그 아래 줄에 (휴대폰과 같은 배치) */
+@media (min-width: 1001px) {
+  table.orders td.c-edit { white-space: nowrap; }
+  table.orders td.c-edit .row-btn { display: inline-block; margin: 1px; }
+  table.orders td.c-edit .row-btn.danger { display: block; width: 100%; }
+}
+
+/* PC: 삭제 버튼 폭 = 수정 + 저장 버튼을 합한 폭 (두 버튼 62px + 여백 1px씩 = 128px) */
+@media (min-width: 1001px) {
+  table.orders td.c-edit { width: 132px; }
+  table.orders td.c-edit .row-btn { width: 62px; box-sizing: border-box; text-align: center; margin: 1px; }
+  table.orders td.c-edit .row-btn.danger { display: block; width: 128px; margin: 2px 1px 0; }
+}
+
+/* 범례: '갈색 음영 보기 버튼'은 실제 버튼 색(갈색 바탕)에 흰 글씨로 보여 시인성을 높인다 */
+.legend-brown { display: inline-block; padding: 1px 8px; border-radius: 6px; background: #8b5a2b; color: #fff; font-weight: 700; }
+
+/* 부서 열 · 부서 읽기 지정폴더 팝업 */
+table.orders th.c-dept, table.orders td.c-dept { white-space: nowrap; text-align: center; font-weight: 700; }
+.dept-box { background: var(--card); border-radius: 12px; padding: 18px; width: min(560px, 100%); max-height: 88vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.dept-box h3 { margin: 0 0 8px; font-size: 16px; }
+.dept-hint { font-size: 13px; color: var(--muted, #555); margin: 0 0 12px; line-height: 1.5; }
+.dept-actions { display: flex; align-items: center; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+.dept-folder { font-size: 13px; color: var(--muted, #555); word-break: break-all; }
+.dept-result { margin-top: 10px; max-height: 40vh; overflow: auto; }
+.dept-result table { width: 100%; font-size: 13px; }
+.dept-result th, .dept-result td { padding: 4px 6px; text-align: left; }
+
+/* 부서 팝업: hidden 이면 숨긴다 (confirm-overlay 의 display:flex 가 hidden 을 덮어써서 닫히지 않던 문제) */
+.confirm-overlay[hidden] { display: none; }
+
+/* 부서 팝업 덮개: 숨김 상태에서는 어떤 경우에도 화면을 가리지 않는다 */
+.dept-overlay { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); padding: 16px; }
+.dept-overlay[hidden] { display: none !important; }
+
+/* 휴대폰 목록: 부서 열 폭을 따로 잡아 다른 열들이 밀리지 않게 한다 (글자는 작게, 줄바꿈 허용) */
+@media (max-width: 1000px) {
+  table.orders thead th.c-dept { width: 34px; }
+  table.orders th.c-dept, table.orders td.c-dept {
+    white-space: normal;
+    word-break: keep-all;
+    font-size: 10px;
+    line-height: 1.2;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+
+/* 휴대폰 공업사 화면: NO 칸은 생성일 칸(NO 값)으로 대신하므로 감춘다 */
+body.phone-shop th.c-no, body.phone-shop td.phone-hide { display: none; }
+/* 휴대폰: 입고일·출고일은 짧게(26-11-06) 한 줄에 */
+@media (max-width: 1000px) {
+  table.orders th.c-date, table.orders td.c-date { white-space: nowrap; font-size: 10px; }
+}
+/* 부서 칸: 누를 수 있다는 표시 */
+.dept-link { cursor: pointer; color: var(--accent, #2456a6); text-decoration: underline; text-underline-offset: 2px; }
+/* 부서 사진 보기 */
+.dept-photo-overlay { position: fixed; inset: 0; z-index: 600; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 12px; }
+.dept-photo-overlay img { max-width: 100%; max-height: 92vh; object-fit: contain; border-radius: 6px; }
+.dept-photo-overlay p { position: absolute; left: 0; right: 0; bottom: 8px; margin: 0; text-align: center; color: #fff; font-size: 14px; }
+
+/* 휴대폰 목록: 보험사는 가운데(한 명) 또는 위아래 두 줄(두 명), 차량번호는 한 줄, 머리글 간격을 고르게 */
+@media (max-width: 1000px) {
+  table.orders th.c-plate, table.orders td.c-plate { white-space: nowrap; }
+  table.orders th.c-ins, table.orders td.c-ins { text-align: center; white-space: normal; }
+  table.orders td.c-ins .ins-line { display: block; line-height: 1.25; }
+  table.orders thead th { text-align: center; vertical-align: middle; padding-left: 2px; padding-right: 2px; }
+}
+
+/* 보험사·담보: 값이 둘이면 위아래 두 줄 (PC·휴대폰 공통), 가운데 맞춤 */
+table.orders td.c-ins .ins-line, table.orders td.c-cov .ins-line { display: block; line-height: 1.25; }
+table.orders td.c-ins, table.orders td.c-cov { text-align: center; }
+
+/* 휴대폰 목록 간격: NO·입고일·출고일은 좁게, 보험사·담보는 넓게 */
+@media (max-width: 1000px) {
+  table.orders thead th.c-ins { white-space: nowrap; }
+  table.orders thead th.c-date:nth-child(2) { width: 20px; }
+  table.orders thead th.c-date:nth-child(3),
+  table.orders thead th.c-date:nth-child(4) { width: 36px; }
+  table.orders thead th.c-ins,
+  table.orders thead th.c-cov { width: 40px; }
+  /* 보험사·담보 두 줄은 같은 줄끼리 맞춘다 (위에서부터) */
+  table.orders td.c-ins, table.orders td.c-cov { vertical-align: top; line-height: 1.25; }
+}
+
+/* 보험사·담보 두 줄: 두 칸의 글자 크기와 줄 간격을 같게 (줄이 같은 높이에 맞도록) */
+table.orders td.c-ins, table.orders td.c-cov { font-size: 12px; line-height: 1.3; vertical-align: top; }
+table.orders td.c-ins .ins-line, table.orders td.c-cov .ins-line { display: block; font-size: 12px; line-height: 1.3; }
+
+/* 휴대폰: 보험사·담보 두 줄이 줄바꿈 없이 한 줄씩 보이도록 칸을 조금 넓히고 글자를 줄인다 */
+@media (max-width: 1000px) {
+  table.orders thead th.c-ins, table.orders thead th.c-cov { width: 46px; }
+  table.orders td.c-ins, table.orders td.c-cov { font-size: 11px; padding-left: 2px; padding-right: 2px; white-space: nowrap; }
+  table.orders td.c-ins .ins-line, table.orders td.c-cov .ins-line { font-size: 11px; }
+}
+
+/* 휴대폰 목록 제목: 모든 제목의 글자 크기와 굵기를 같게 (칸 폭·간격은 그대로) */
+@media (max-width: 1000px) {
+  table.orders thead th,
+  table.orders thead th.c-date,
+  table.orders thead th.c-ins,
+  table.orders thead th.c-cov,
+  table.orders thead th.c-plate,
+  table.orders thead th.c-veh,
+  table.orders thead th.c-dept,
+  table.orders thead th.c-paint,
+  table.orders thead th.c-open,
+  table.orders thead th.c-edit {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1.25;
+  }
+}
+
+/* 휴대폰 목록: 칸 간격은 확정된 값 그대로 (보험사·담보 칸 폭 40px), 보험사·담보 값은 셀의 위아래 가운데 */
+@media (max-width: 1000px) {
+  table.orders thead th.c-ins, table.orders thead th.c-cov { width: 40px; }
+  table.orders td.c-ins, table.orders td.c-cov { vertical-align: middle; }
+}
+table.orders td.c-ins, table.orders td.c-cov { vertical-align: middle; }
+
+/* 휴대폰 공업사 목록 최적화: 칸 폭을 합 100%로 고정해 가로로 밀리지 않게 한다 (머리글 기준) */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders { table-layout: fixed; width: 100%; }
+  body.phone-shop table.orders th,
+  body.phone-shop table.orders td { font-size: 10px; padding: 3px 1px; overflow: hidden; }
+  body.phone-shop table.orders thead th:nth-child(2) { width: 5%; }   /* NO (생성일 칸) */
+  body.phone-shop table.orders thead th:nth-child(3),
+  body.phone-shop table.orders thead th:nth-child(4) { width: 11%; }  /* 입고일 · 출고일 */
+  body.phone-shop table.orders thead th:nth-child(6),
+  body.phone-shop table.orders thead th:nth-child(7) { width: 9%; }   /* 보험사명 · 담보 */
+  body.phone-shop table.orders thead th:nth-child(8) { width: 13%; }  /* 차량번호 */
+  body.phone-shop table.orders thead th:nth-child(9) { width: 13%; }  /* 차량명 */
+  body.phone-shop table.orders thead th:nth-child(10) { width: 6%; }  /* 부서 */
+  body.phone-shop table.orders thead th:nth-child(11) { width: 6%; }  /* 도장코드 */
+  body.phone-shop table.orders thead th:nth-child(12) { width: 6%; }  /* 작업지시서보기 */
+  body.phone-shop table.orders thead th:nth-child(13) { width: 12%; } /* 수정 */
+  body.phone-shop table.orders td.c-plate { white-space: nowrap; font-size: 9.5px; }
+  body.phone-shop table.orders td.c-paint, body.phone-shop table.orders td.c-open { white-space: nowrap; }
+  body.phone-shop table.orders td.c-edit .row-btn { width: auto; min-width: 0; padding: 1px 3px; font-size: 10px; height: auto; }
+  body.phone-shop table.orders td.c-edit .row-btn.danger { display: block; width: 100%; }
+}
+
+/* 휴대폰에서는 '부서 읽기 지정폴더 저장' 단추를 보이지 않는다 (PC에서만 쓴다) */
+@media (max-width: 1000px) {
+  #dept-open { display: none !important; }
+}
+
+/* '부서 읽기 지정폴더 저장' 단추: 갈색 음영 안내 오른쪽, 파란 바탕에 흰 글씨 (PC) */
+.status-row .dept-open-btn {
+  margin-left: 12px;
+  height: 30px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 6px;
+  background: #2456a6;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.status-row .dept-open-btn[hidden] { display: none; }
+
+/* 휴대폰 공업사 목록 간격 통일: 칸 폭은 내용에 맞추고, 모든 칸의 좌우 여백을 같게 준다 */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders { table-layout: auto; width: 100%; }
+  body.phone-shop .table-scroll { overflow-x: auto; }
+  body.phone-shop table.orders thead th,
+  body.phone-shop table.orders thead th:nth-child(n) { width: auto !important; }
+  body.phone-shop table.orders th,
+  body.phone-shop table.orders td { padding: 3px 2px; font-size: 10px; overflow: visible; text-align: center; }
+  body.phone-shop table.orders td.c-veh { white-space: normal; text-align: center; }
+  body.phone-shop table.orders td.c-plate,
+  body.phone-shop table.orders td.c-paint,
+  body.phone-shop table.orders td.c-open,
+  body.phone-shop table.orders td.c-date { white-space: nowrap; }
+  body.phone-shop table.orders td.c-edit .row-btn { padding: 1px 2px; font-size: 10px; }
+}
+
+/* 상단 줄 오른쪽: 갈색 음영 안내를 오른쪽에 붙이고, 부서 단추는 그 뒤로 두 칸 띄운다 */
+.status-row .list-note { margin-left: auto; }
+.status-row .dept-open-btn { margin-left: 2em; }
+
+/* 휴대폰 공업사 목록: 칸 폭을 고정 비율로 (합 100%). 제목마다 적용 비율: 생성일칸(NO) 5 · 입고일 11 · 출고일 11 · 보험사명 9 · 담보 9 · 차량번호 13 · 차량명 12 · 부서 6 · 도장코드 6 · 작업지시서보기 6 · 수정 12 */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders { table-layout: fixed !important; width: 100% !important; }
+  body.phone-shop table.orders thead th:nth-child(2) { width: 5% !important; }
+  body.phone-shop table.orders thead th:nth-child(3) { width: 11% !important; }
+  body.phone-shop table.orders thead th:nth-child(4) { width: 11% !important; }
+  body.phone-shop table.orders thead th:nth-child(6) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(7) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(8) { width: 13% !important; }
+  body.phone-shop table.orders thead th:nth-child(9) { width: 12% !important; }
+  body.phone-shop table.orders thead th:nth-child(10) { width: 6% !important; }
+  body.phone-shop table.orders thead th:nth-child(11) { width: 6% !important; }
+  body.phone-shop table.orders thead th:nth-child(12) { width: 6% !important; }
+  body.phone-shop table.orders thead th:nth-child(13) { width: 12% !important; }
+  body.phone-shop table.orders td.c-plate { white-space: nowrap; }
+}
+
+/* 휴대폰 공업사 목록 칸 비율 (합 100%): NO(생성일칸) 5 · 입고일 9 · 출고일 9 · 보험사명 9 · 담보 9 · 차량번호 9 · 차량명 10 · 부서 10 · 도장코드 6 · 작업지시서보기 10 · 수정 14 */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders thead th:nth-child(2) { width: 5% !important; }
+  body.phone-shop table.orders thead th:nth-child(3) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(4) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(6) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(7) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(8) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(9) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(10) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(11) { width: 6% !important; }
+  body.phone-shop table.orders thead th:nth-child(12) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(13) { width: 14% !important; }
+}
+
+/* 부서 사진 목록 (부서 값을 누르면 차량의 작업 사진을 모두 본다) */
+.dept-gallery { flex-direction: column; align-items: stretch; justify-content: flex-start; overflow-y: auto; padding: 16px; }
+.dept-gallery .gallery-head { position: static; color: #fff; font-size: 14px; font-weight: 700; margin: 0 0 10px; text-align: left; }
+.dept-gallery .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.dept-gallery .gallery-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px; background: #222; cursor: zoom-in; }
+.dept-gallery .gallery-close { margin: 14px auto 0; height: 34px; padding: 0 18px; border: none; border-radius: 6px; background: #fff; color: #1d2430; font-weight: 700; cursor: pointer; }
+
+/* 휴대폰 공업사 목록: NO·생성일을 함께 보인다. 칸 비율 (합 100%): NO 4 · 생성일 8 · 입고일 9 · 출고일 9 · 보험사명 9 · 담보 9 · 차량번호 9 · 차량명 8 · 부서 9 · 도장코드 6 · 작업지시서보기 8 · 수정 12 */
+@media (max-width: 1000px) {
+  body.phone-shop th.c-no { display: table-cell !important; }
+  body.phone-shop table.orders thead th:nth-child(1) { width: 4% !important; }
+  body.phone-shop table.orders thead th:nth-child(2) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(3) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(4) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(6) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(7) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(8) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(9) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(10) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(11) { width: 6% !important; }
+  body.phone-shop table.orders thead th:nth-child(12) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(13) { width: 12% !important; }
+}
+
+/* 휴대폰 공업사 목록 칸 비율 (합 100%): NO 4 · 생성일 7 · 입고일 7 · 출고일 7 · 보험사명 10 · 담보 10 · 차량번호 10 · 차량명 10 · 부서 9 · 도장코드 8 · 작업지시서보기 8 · 수정 10 */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders thead th:nth-child(1) { width: 4% !important; }
+  body.phone-shop table.orders thead th:nth-child(2) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(3) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(4) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(6) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(7) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(8) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(9) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(10) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(11) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(12) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(13) { width: 10% !important; }
+}
+
+/* 휴대폰 공업사 목록 칸 비율 (합 100%, 최종): NO 4 · 생성일 7 · 입고일 7 · 출고일 7 · 보험사명 10 · 담보 10 · 차량번호 10 · 차량명 10 · 부서 9 · 도장코드 9 · 작업지시서보기 9 · 수정 8 */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders thead th:nth-child(10) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(11) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(12) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(13) { width: 8% !important; }
+}
+
+/* 휴대폰 공업사 목록 칸 비율 (합 100%, 확정): NO 5 · 생성일 8 · 입고일 8 · 출고일 8 · 보험사명 8 · 담보 8 · 차량번호 10 · 차량명 10 · 부서 9 · 도장코드 9 · 작업지시서보기 9 · 수정 8 */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders thead th:nth-child(1) { width: 5% !important; }
+  body.phone-shop table.orders thead th:nth-child(2) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(3) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(4) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(6) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(7) { width: 8% !important; }
+}
+
+/* 부서 변경: 녹색 음영 (갱신 전), 갱신 단추, 부서 밑줄 없음, 상단 안내 */
+.dept-link { text-decoration: none; }
+.dept-new { display: inline-block; padding: 1px 6px; border-radius: 4px; background: #2e8b57; color: #fff; font-weight: 700; cursor: pointer; }
+/* 부서 글자 아래의 폴더 사진 개수: 다음 줄에 작게 "(개수)" */
+.dept-count { display: block; margin-top: 2px; font-size: 0.85em; font-weight: 400; line-height: 1.2; white-space: nowrap; }
+.dept-pending .dept-ack { display: block; margin: 3px auto 0; height: 22px; padding: 0 8px; border: 1px solid #2e8b57; border-radius: 4px; background: #fff; color: #2e8b57; font-size: 11px; font-weight: 700; cursor: pointer; }
+.status-row .dept-legend { margin-left: auto; font-size: 13px; color: var(--muted, #555); white-space: nowrap; }
+.status-row .dept-legend + .list-note { margin-left: 2em; }
+.dept-green-chip { display: inline-block; padding: 0 6px; border-radius: 4px; background: #2e8b57; color: #fff; font-weight: 700; }
+
+/* 일괄갱신: 녹색, 부서 읽기 단추 왼쪽 (PC 공업사) */
+.status-row .dept-all-btn { margin-left: 10px; height: 40px; padding: 0 14px; border: none; border-radius: 6px; background: #2e8b57; color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; }
+.status-row .dept-all-btn[hidden] { display: none; }
+/* 일괄갱신: 휴대폰에서도 보인다 (공업사 계정) */
+
+/* 휴대폰: 상단 안내 줄을 한 줄에 (글자와 단추를 작게) */
+@media (max-width: 1000px) {
+  .status-row { flex-wrap: nowrap; align-items: center; gap: 4px; overflow-x: auto; }
+  .status-row .status { font-size: 10px; white-space: nowrap; margin: 0; }
+  .status-row .dept-legend { font-size: 9px; margin-left: auto; }
+  .status-row .list-note { font-size: 9px; white-space: nowrap; margin-left: 4px; }
+  .status-row .list-note .legend-brown { font-size: 9px; padding: 0 4px; }
+  .status-row .dept-green-chip { font-size: 9px; padding: 0 4px; }
+  .status-row .dept-blue-note { font-size: 9px; margin-left: 4px; }
+  .status-row .dept-blue-chip { font-size: 9px; padding: 0 4px; }
+  .status-row .dept-legend + .list-note { margin-left: 4px; }
+  .status-row .dept-all-btn { height: 26.5px; padding: 0 6px; font-size: 10px; margin-left: 4px; flex: 0 0 auto; }
+}
+
+/* 부서 확인 상태 글자 (목록 상단) */
+.dept-live { font-size: 12px; color: #2e8b57; font-weight: 700; margin-left: 10px; white-space: nowrap; }
+
+/* 사진 보기: 좌우 이동 버튼, 번호, 닫기 (휴대폰은 밀기 가능) */
+.photo-viewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; }
+.photo-viewer .pv-stage { flex: 1 1 auto; height: 100%; display: flex; align-items: center; justify-content: center; min-width: 0; padding: 56px 0; box-sizing: border-box; }
+.photo-viewer .pv-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; user-select: none; -webkit-user-drag: none; }
+.photo-viewer .pv-btn { position: relative; z-index: 2; flex: 0 0 auto; height: 44px; min-width: 56px; padding: 0 10px; border: none; border-radius: 8px; background: rgba(255,255,255,0.9); color: #1d2430; font-size: 14px; font-weight: 700; cursor: pointer; margin: 0 6px; }
+.photo-viewer .pv-btn:disabled { opacity: 0.35; cursor: default; }
+.photo-viewer .pv-count { position: absolute; left: 0; right: 0; bottom: 14px; margin: 0; text-align: center; color: #fff; font-size: 13px; padding: 0 12px; }
+.photo-viewer .pv-close { position: absolute; top: 10px; right: 10px; z-index: 3; height: 36px; padding: 0 14px; border: none; border-radius: 6px; background: #fff; color: #1d2430; font-weight: 700; cursor: pointer; }
+@media (max-width: 1000px) {
+  .photo-viewer .pv-btn { position: absolute; top: 50%; transform: translateY(-50%); margin: 0; }
+  .photo-viewer .pv-prev { left: 4px; }
+  .photo-viewer .pv-next { right: 4px; }
+  .photo-viewer .pv-stage { padding: 56px 8px; width: 100%; }
+}
+
+/* 휴대폰: 부서 확인 상태 글자는 보이지 않는다 */
+@media (max-width: 1000px) {
+  #dept-live { display: none !important; }
+}
+
+/* 휴대폰 사진 보기: 하단 글자(파일 이름)는 보이지 않는다 */
+@media (max-width: 1000px) {
+  .photo-viewer .pv-count { display: none; }
+}
+
+/* 상단 줄 단추: 당일출고검색 (녹색·흰 글씨), 작업목록 엑셀다운로드 (두 줄) */
+.status-row .today-out-btn { margin-left: 10px; height: 40px; padding: 0 14px; border: none; border-radius: 6px; background: #2e8b57; color: #fff; font-size: 13px; font-weight: 700; line-height: 1.1; white-space: nowrap; cursor: pointer; }
+/* 상단 줄 단추 높이·가운데 맞춤: 엑셀 단추도 다른 단추와 같은 30px 높이 (두 줄 글자를 가운데에) */
+/* 상단 줄: 글자·아이콘·단추를 위아래 가운데에 두고, 아래 목록 선과 붙지 않게 여백을 둔다 */
+.status-row { align-items: center; min-height: 46px; padding-bottom: 10px; box-sizing: border-box; }
+.status-row .excel-list-btn { margin-left: 10px; height: 40px; box-sizing: border-box; padding: 0 12px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #2456a6; border-radius: 6px; background: #fff; color: #2456a6; font-size: 12px; font-weight: 700; line-height: 1.1; white-space: nowrap; cursor: pointer; }
+.coats-line { display: block; font-size: 10px; color: #7a3ec0; font-weight: 700; }
+/* 부서·도장: 길게 누르기로 검색 팝업이 뜨지 않게 글자 선택을 막는다 */
+.dept-link, .dept-new, td.c-dept, td.c-paint, td.c-paint * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+/* 대표정보보기 칸, 작업요약 팝업, 사진 목록·보기: 글자 선택과 길게 누르기 메뉴를 막는다 (검색창 방지) */
+td.c-rep, td.c-rep *, .rep-popup, .rep-popup *, .dept-gallery, .dept-gallery *, .photo-viewer, .photo-viewer *, .dept-photo-overlay, .dept-photo-overlay * {
+  -webkit-user-select: none !important; user-select: none !important; -webkit-touch-callout: none !important;
+}
+.photo-viewer img, .dept-gallery img { -webkit-user-drag: none; user-drag: none; }
+/* 휴대폰: 상단 줄에서는 당일출고검색·엑셀 단추를 숨긴다 (한 줄 유지) */
+/* 휴대폰: 당일출고검색·일괄갱신·엑셀다운로드 단추도 PC와 같이 보인다 (작게) */
+@media (max-width: 1000px) {
+  .status-row .today-out-btn, .status-row .dept-all-btn, .status-row .excel-list-btn { display: inline-flex; align-items: center; justify-content: center; height: 26.5px; padding: 0 8px; font-size: 10px; line-height: 1; margin: 0; }
+  /* 항상 한 줄: 건수 글자, 음영 안내, 단추가 한 줄에 놓이고 넘치면 옆으로 민다 (줄바꿈 없음). 단추 묶음은 오른쪽 끝 */
+  .status-row { flex-wrap: nowrap; overflow-x: auto; }
+  .status-row .status, .status-row .legend-group, .status-row .today-out-btn, .status-row .dept-all-btn, .status-row .excel-list-btn { flex: 0 0 auto; white-space: nowrap; }
+  /* 파란음영과 당일출고검색 사이를 조금 띄운다 */
+  .status-row .today-out-btn { margin-left: 12px; }
+  .status-row .dept-all-btn, .status-row .excel-list-btn { margin-left: 4px; }
+  .status-row .excel-list-btn { display: inline-flex; min-height: 26.5px; height: 26.5px; padding: 0 6px; border-width: 1px; }
+  .status-row .dept-all-btn[hidden] { display: none; }
+  .status-row .today-out-btn, .status-row .excel-list-btn { display: inline-flex; }
+}
+
+/* 휴대폰 공업사 목록 글자: 보험사명·담보와 같은 크기 (11px) */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders td { font-size: 11px !important; }
+  body.phone-shop table.orders td.c-plate { font-size: 10px !important; }
+}
+
+/* 작업지시서 보기 단추 아이콘: 1px 위로 */
+a.open { position: relative; top: -1px; }
+/* 사진 보기: 공유 단추 (카톡 등으로 보내기) */
+/* 사진 목록: 선택 모드 단추와 고른 사진 표시, 여러 장 보내기 */
+.gallery-bar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin: 6px 0; }
+.gallery-bar button { height: 36px; padding: 0 14px; border: none; border-radius: 6px; background: #fff; color: #1d2430; font-size: 14px; font-weight: 700; cursor: pointer; }
+.gallery-bar button[hidden] { display: none; }
+.gallery-bar button:disabled { opacity: 0.45; cursor: default; }
+.gallery-bar .gb-send { background: #fee500; color: #3c1e1e; }
+.gallery-grid img.picked { outline: 4px solid #ffd400; opacity: 0.7; }
+.gallery-note { margin: 2px 0; text-align: center; color: #fff; font-size: 13px; }
+.photo-viewer .pv-share { position: absolute; top: 10px; left: 10px; z-index: 3; height: 36px; padding: 0 14px; border: none; border-radius: 6px; background: #fee500; color: #3c1e1e; font-weight: 700; cursor: pointer; }
+
+/* 날짜 칸 둘째 줄 요일 */
+.wk-line { display: block; font-size: 10px; color: #5b6170; }
+/* PC: 요일 글자는 2px 키운다 */
+@media (min-width: 1001px) {
+  .wk-line { font-size: 12px; }
+}
+/* 부서 제목: 파란 음영 */
+table.orders thead th.c-dept { background: #2456a6; color: #fff; }
+/* 파란 음영: 차량색 파랑 바탕에 흰 글자, 크기는 갈색 음영과 같다 */
+.dept-blue-chip { display: inline-block; padding: 1px 8px; border-radius: 6px; background: #2456a6; color: #fff; font-weight: 700; }
+
+/* 음영 안내 (상단 줄 오른쪽): 색 칸은 두 줄 글자, 설명은 옆에 두 줄 */
+.legend-group { display: flex; align-items: center; gap: 40px; margin-left: 16px; flex: 0 1 auto; }
+.legend-item { display: flex; align-items: center; gap: 12px; }
+.lg-chip { display: inline-block; flex: 0 0 auto; min-width: 54px; padding: 4px 6px; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; line-height: 1.25; text-align: center; }
+.lg-green { background: #2e8b57; }
+.lg-brown { background: #8b5a2b; }
+.lg-blue { background: #2456a6; }
+/* 주석: "=" 칸과 글자 칸을 나눠서, 줄바꿈된 둘째 줄이 첫 글자 위치에 맞춰 시작한다 */
+.lg-text { display: inline-grid; grid-template-columns: auto minmax(0, auto); column-gap: 0.45em; align-items: start; font-size: 12px; line-height: 1.3; color: var(--muted, #555); }
+.lg-desc { display: block; white-space: nowrap; }
+/* 당일출고검색 등 단추는 상단 줄 오른쪽 끝으로 */
+.status-row .today-out-btn { margin-left: auto; }
+@media (max-width: 1000px) {
+  /* 휴대폰: 음영 안내는 "총 건수" 글자 바로 오른쪽에 붙이고, 넘치면 다음 줄 왼쪽부터 이어 쓴다 */
+  /* 기본 줄 배치는 양끝 맞춤(space-between)이라 남는 칸이 건수 글자와 음영 사이로 벌어졌다 → 왼쪽부터 붙인다 */
+  .status-row { flex-wrap: wrap; overflow-x: visible; row-gap: 4px; justify-content: flex-start; }
+  /* 건수 글자와 녹색 음영 사이는 공백 두 칸 */
+  .status-row .legend-group { flex: 0 1 auto; margin-left: 2ch; gap: 6px 10px; flex-wrap: wrap; justify-content: flex-start; }
+  .status-row .status { margin-right: 0; }
+  .legend-item { gap: 3px; }
+  .lg-chip { width: 40px; min-width: 40px; padding: 2px 0; font-size: 9px; border-radius: 5px; }
+  .lg-text { font-size: 9px; }
+  /* 휴대폰: 음영 안내는 왼쪽에 고정하고, 단추 세 개(당일출고·일괄갱신·엑셀)는 오른쪽 끝으로 민다 (엑셀 단추가 맨 오른쪽) */
+  .status-row .today-out-btn { margin-left: auto; }
+  .status-row .dept-all-btn, .status-row .excel-list-btn { margin-left: 4px; margin-right: 0; }
+}
+/* 당일출고검색·일괄갱신·작업목록엑셀다운로드 단추: 모두 엑셀 단추와 같은 색 (흰 바탕, 파란 글자·테두리) */
+.status-row .today-out-btn, .status-row .dept-all-btn, .status-row .excel-list-btn {
+  background: #fff; color: #2456a6; border: 1px solid #2456a6;
+}
+
+/* 휴대폰 칸 비율 (변경비율표): NO 4.5 · 입고일 5 · 출고일 5 · 공업사명 1.5 · 보험사 6 · 담보 6 · 차량번호 9 · 차량명 14 · 부서 9 · 대표정보보기 9 · 도장코드 9 · 작업지시서보기 11 · 수정 11 (합 100)
+   생성일은 숨김이라 비율에서 뺀다. 머리글 칸에 적용하면 칸 전체가 같은 폭이 된다 */
+@media (max-width: 1000px) {
+  body table.orders { table-layout: fixed !important; width: 100% !important; }
+  body table.orders thead tr th.c-no:not(.phone-hide) { width: 4.5% !important; }
+  body table.orders thead tr th.c-date:not(.phone-hide) { width: 5% !important; }
+  body table.orders thead tr th.c-shop:not(.phone-hide) { width: 1.5% !important; }
+  body table.orders thead tr th.c-ins:not(.phone-hide) { width: 6% !important; }
+  body table.orders thead tr th.c-cov:not(.phone-hide) { width: 6% !important; }
+  body table.orders thead tr th.c-plate:not(.phone-hide) { width: 9% !important; }
+  body table.orders thead tr th.c-veh:not(.phone-hide) { width: 14% !important; }
+  body table.orders thead tr th.c-dept:not(.phone-hide) { width: 9% !important; }
+  body table.orders thead tr th.c-rep:not(.phone-hide) { width: 9% !important; }
+  body table.orders thead tr th.c-paint:not(.phone-hide) { width: 9% !important; }
+  body table.orders thead tr th.c-open:not(.phone-hide) { width: 11% !important; }
+  body table.orders thead tr th.c-edit:not(.phone-hide) { width: 11% !important; }
+}
+
+/* 휴대폰: 생성일 칸은 보이지 않는다 */
+@media (max-width: 1000px) {
+  table.orders th.phone-hide, table.orders td.phone-hide { display: none; }
+}
+
+/* 카톡 공유 사진: 차량 고르기 창 (휴대폰에서도 보이게 가득 채운다) */
+.share-overlay { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 10px; box-sizing: border-box; }
+.share-box { background: var(--card, #fff); color: var(--text, #1d2430); border-radius: 10px; width: min(560px, 100%); max-height: 92vh; display: flex; flex-direction: column; gap: 8px; padding: 14px; box-sizing: border-box; }
+.share-title { margin: 0; font-size: 15px; font-weight: 700; }
+.share-search { width: 100%; box-sizing: border-box; height: 38px; padding: 0 10px; font-size: 15px; border: 1px solid var(--line, #d9dee7); border-radius: 8px; }
+.share-list { flex: 1 1 auto; min-height: 120px; overflow-y: auto; border: 1px solid var(--line, #d9dee7); border-radius: 8px; }
+.share-table { width: 100%; font-size: 18px; }
+.share-table th, .share-table td { padding: 14px 6px; }
+.share-table tbody tr { cursor: pointer; }
+.share-table input[type=checkbox] { width: 20px; height: 20px; }
+.share-status { margin: 0; font-size: 13px; color: var(--muted, #555); min-height: 1em; }
+.share-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.share-actions button { height: 40px; min-width: 88px; padding: 0 14px; font-size: 15px; border-radius: 8px; border: 1px solid var(--line, #d9dee7); background: var(--card, #fff); cursor: pointer; }
+.share-actions button.primary { background: #2456a6; border-color: #2456a6; color: #fff; }
+.share-actions button:disabled { opacity: 0.4; cursor: default; }
+
+/* 처음 열 때: 목록 준비가 끝날 때까지 본문을 숨겨 중간 모습(좌측으로 밀린 칸)이 보이지 않게 한다 (자리는 그대로 두어 배치가 바뀌지 않는다) */
+html.booting main.wrap { visibility: hidden; }
+
+/* 휴대폰: 차량번호 글자를 1px 크게 (공업사 화면은 9.5px → 10.5px, 그 밖은 표 글자 크기 + 1px) */
+@media (max-width: 1000px) {
+  table.orders tbody td.c-plate { font-size: calc(1em + 1px); }
+  body.phone-shop table.orders tbody td.c-plate { font-size: 10.5px; }
+}
+
+/* 휴대폰: 보기 버튼을 크게 (칸 폭은 그대로, 버튼이 칸 폭을 채우고 글자와 높이를 키운다) */
+@media (max-width: 1000px) {
+  table.orders td.c-open a.open { display: block; width: 60%; margin: 0 auto; box-sizing: border-box; padding: 5px 0; font-size: calc(1em + 2px); line-height: 1.2; text-align: center; }
+}
+
+/* 휴대폰 수정 칸: 수정·저장은 반반 나란히, 삭제는 두 칸을 합친 폭 (삭제의 왼쪽 = 수정의 왼쪽, 삭제의 오른쪽 = 저장의 오른쪽) */
+@media (max-width: 1000px) {
+  table.orders td.c-edit .row-btn,
+  body.phone-shop table.orders td.c-edit .row-btn { display: inline-block; box-sizing: border-box; width: 50%; margin: 1px 0 0 0; padding: 2px 0; height: auto; min-height: 24px; text-align: center; font-size: 11px; vertical-align: top; }
+  table.orders td.c-edit .row-btn.danger,
+  body.phone-shop table.orders td.c-edit .row-btn.danger { display: block; width: 100%; margin-top: 2px; }
+  table.orders td.c-edit { padding-left: 2px; padding-right: 2px; }
+}
+
+/* 휴대폰: 부서·도장코드 내용은 대표정보보기 내용과 같은 글자 크기·굵기·색 (굵게, 진한 파랑).
+   보조 글자(사진 개수, 코트 수)는 대표정보보기의 (개수) 글자와 같게 (10px, 회색, 굵지 않게) */
+@media (max-width: 1000px) {
+  table.orders td.c-dept, table.orders td.c-paint { font-size: inherit !important; font-weight: 700; color: #1e3a8a; }
+  body.phone-shop table.orders td.c-dept, body.phone-shop table.orders td.c-paint { font-size: 11px !important; }
+  table.orders td.c-dept .dept-count, table.orders td.c-paint .coats-line { display: block; font-size: 10px; font-weight: 400; color: #5b6170; }
+}
+.dept-blue-note { margin-left: 2em; font-size: 13px; color: var(--muted, #555); white-space: nowrap; }
+/* 목록 칸 아래 보조 글자 (부서 밑 사진 수, 대표정보 밑 작업 수, 도장코드 밑 코트 수): 모두 같은 크기 10px (PC·휴대폰 공통) */
+.dept-count, .rep-count, .coats-line { font-size: 10px !important; }
+
+/* 대표정보보기: 파트명(누르면 작업요약 팝업) 과 개수 */
+.rep-part { display: block; font-weight: 700; color: #1e3a8a; cursor: pointer; text-decoration: none; }
+/* 개수는 마지막 줄 뒤에 붙인다 (두 줄 파트명이면 둘째 줄에, 한 줄이면 둘째 줄에 있게) → 모든 행이 두 줄로 같은 높이 */
+.rep-count { display: inline; font-size: 10px; color: #5b6170; margin-left: 3px; }
+.rep-popup { position: fixed; left: 0; top: 0; z-index: 650; background: #fff; border: 1px solid #c9d1de; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); padding: 12px 14px; max-width: 92vw; max-height: 70vh; overflow-y: auto; cursor: pointer; }
+.rep-popup .rep-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+.rep-popup .rep-sec-title { margin: 8px 0 3px; font-size: 12px; font-weight: 700; color: #1e3a8a; }
+.rep-popup .rep-sec-title:first-child { margin-top: 0; }
+.rep-popup .rep-text { margin: 0 0 2px; font-size: 12px; white-space: pre-wrap; word-break: keep-all; }
+/* 일반·기타메모 글자: 작업지시서 화면의 일반·기타메모 줄과 같다 (13px, 굵기 600, 파란색) */
+.rep-popup .rep-text.rep-blue { font-size: 13px; font-weight: 600; color: #2456a6; }
+.rep-popup .rep-none { margin: 0 0 2px; font-size: 12px; color: #5b6170; }
+/* 일반·기타메모: 구분 칩 + 입력값 한 줄 (칩은 테두리만 있는 둥근 상자) */
+.rep-popup .rep-line { display: flex; align-items: flex-start; gap: 8px; margin: 0 0 8px; }
+.rep-popup .rep-chip { flex: 0 0 auto; padding: 1px 8px; border: 1px solid currentColor; border-radius: 6px; font-size: 12px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+.rep-popup .rep-chip.gen { color: #2456a6; }
+.rep-popup .rep-chip.memo { color: #2456a6; }
+.rep-popup .rep-chip.sum { color: #2456a6; }
+.rep-popup .rep-vals.sum { font-weight: 700; color: #1d2430; }
+.rep-popup .rep-vals { font-size: 13px; font-weight: 600; line-height: 1.5; word-break: keep-all; padding-top: 1px; }
+.rep-popup .rep-vals.gen { color: #2456a6; }
+.rep-popup .rep-vals.memo { color: #2456a6; }
+.rep-popup .rep-vals.rep-none { color: #5b6170; font-weight: 400; }
+/* 수정으로 더한 항목: 녹색 글씨 (작업지시서 화면의 added-text 와 같다) */
+.rep-popup .rep-vals .added-text { color: #1e9e3e; font-weight: 800; }
+/* 작업요약 건수: 교환 빨강 · 판금 파랑 · 탈착 회색 (굵게) */
+.rep-popup .rep-cnt { font-weight: 700; }
+/* 작업요약 항목 사이의 구분선 */
+.rep-popup .rep-sep { color: #5b6170; white-space: pre; font-weight: 800; padding: 0 0.7em; }
+.rep-popup .sum-item { font-size: 12px; white-space: nowrap; }
+.rep-popup .red { color: #c81e2b; }
+.rep-popup .blue { color: #1f6fe0; }
+.rep-popup .gray { color: #5b6170; }
+
+/* PC: 목록 내용을 2px 위로, 굵게 (부서 칸 제외). 위 여백 2px 줄이고 아래 여백 2px 늘려 줄 높이는 그대로 둔다 */
+@media (min-width: 1001px) {
+  table.orders tbody td:not(.c-dept) { padding-top: 8px; padding-bottom: 12px; font-size: calc(1em + 1px); }
+  /* 부서·대표정보보기 글자 크기: 차량명과 같게 (PC) */
+  table.orders tbody td.c-dept, table.orders tbody td.c-rep { font-size: calc(1em + 1px); }
+  /* 보험사·담보 글자 크기: 주변 칸과 같게 (PC) */
+  table.orders tbody td.c-ins, table.orders tbody td.c-cov,
+  table.orders tbody td.c-ins .ins-line, table.orders tbody td.c-cov .ins-line { font-size: calc(1em + 1px); }
+}
+
+/* 휴대폰: 부서·대표정보보기 글자 크기를 차량명과 같게 (차량명은 공업사 화면 11px, 그 밖은 표 글자 크기를 따른다) */
+@media (max-width: 1000px) {
+  table.orders td.c-dept, table.orders td.c-rep { font-size: inherit !important; }
+  body.phone-shop table.orders td.c-dept, body.phone-shop table.orders td.c-rep { font-size: 11px !important; }
+}
+
+/* 휴대폰 공업사 목록 칸 비율: 대표정보보기 칸 추가 (13칸, 합 100%) */
+@media (max-width: 1000px) {
+  body.phone-shop table.orders thead th:nth-child(1) { width: 4% !important; }
+  body.phone-shop table.orders thead th:nth-child(2) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(3) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(4) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(6) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(7) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(8) { width: 10% !important; }
+  body.phone-shop table.orders thead th:nth-child(9) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(10) { width: 7% !important; }
+  body.phone-shop table.orders thead th:nth-child(11) { width: 9% !important; }
+  body.phone-shop table.orders thead th:nth-child(12) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(13) { width: 8% !important; }
+  body.phone-shop table.orders thead th:nth-child(14) { width: 8% !important; }
+}
+
+/* PC 상단 줄: 부서읽기 지정폴더 저장 단추와 작업목록 엑셀다운로드 단추의 폭·높이를 같게 */
+@media (min-width: 1001px) {
+  .status-row .excel-list-btn,
+  .status-row .dept-open-btn {
+    width: 100px; min-width: 100px; height: 40px; box-sizing: border-box;
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2px 4px; line-height: 1.1; white-space: normal; text-align: center; font-size: 12px;
+  }
+}
+
+/* 목록 정렬 머리글 (입고일·출고일) */
+table.orders thead th.sortable { cursor: pointer; user-select: none; }
+table.orders thead th.sort-asc::after { content: " ▲"; }
+table.orders thead th.sort-desc::after { content: " ▼"; }
+/* '작성' 단추: 아직 작업 내용이 없는 작업지시서 */
+a.open.write { font-weight: 700; }

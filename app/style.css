@@ -1,0 +1,1575 @@
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1d2330;
+  --muted: #6b7280;
+  --line: #d6dbe2;
+  --accent: #2563eb;
+  --red: #ffc9c9;
+  --red-text: #9b1c1c;
+  --blue: #cfe2ff;
+  --blue-text: #1e40af;
+  --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171c;
+    --card: #1e232b;
+    --text: #e6e9ef;
+    --muted: #9aa3b2;
+    --line: #353d49;
+    --accent: #60a5fa;
+    --red: #7f1d1d;
+    --red-text: #fecaca;
+    --blue: #1e3a8a;
+    --blue-text: #dbeafe;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #14171c;
+  --card: #1e232b;
+  --text: #e6e9ef;
+  --muted: #9aa3b2;
+  --line: #353d49;
+  --accent: #60a5fa;
+  --red: #7f1d1d;
+  --red-text: #fecaca;
+  --blue: #1e3a8a;
+  --blue-text: #dbeafe;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+[hidden] { display: none !important; }
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.app-header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.screen {
+  padding: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.card h2 {
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+
+.field { margin-bottom: 14px; position: relative; }
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+}
+
+input[type="text"]:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+button {
+  font: inherit;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button.primary {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+
+.chip[aria-checked="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.suggest {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 4;
+}
+
+.suggest li {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+}
+
+.suggest li:last-child { border-bottom: none; }
+
+.suggest li:hover,
+.suggest li.active {
+  background: var(--bg);
+}
+
+.notice {
+  color: var(--red-text);
+  background: var(--red);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.order-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-info { font-size: 15px; }
+.order-info b { font-size: 17px; }
+
+/* 작업지시서 머리글 버튼: 저장·목록·차량 다시 선택·인쇄가 같은 크기와 모양을 가진다 */
+.order-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.order-buttons button,
+.order-buttons .list-link {
+  width: auto;
+  min-width: 96px;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent, #2456a6);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--accent, #2456a6);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.order-buttons button.primary {
+  width: auto;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--accent, #2456a6);
+  color: #fff;
+}
+
+/* 상단 버튼 색 (기준 그림): 진한 네이비 글자·아이콘, 연한 청회색 테두리, 저장만 네이비 채움 */
+.order-buttons button,
+.order-buttons .list-link {
+  color: #1f3a6e;
+  border-color: #aebfdc;
+}
+
+.order-buttons button.primary {
+  background: #1f3a6e;
+  border-color: #1f3a6e;
+  color: #fff;
+}
+
+/* 차량 다시 선택 버튼의 화살표 아이콘: 글자와 같은 네이비 */
+.order-buttons .back-arrow { color: #1f3a6e; font-weight: 800; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.legend-item { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+
+.swatch {
+  display: inline-block;
+  width: 22px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+}
+.swatch.red { background: var(--red); }
+.swatch.blue { background: var(--blue); }
+
+.legend-help { color: var(--muted); flex-basis: 100%; }
+
+.table-wrap {
+  padding: 0;
+}
+
+.order-table {
+  width: 100%;
+  table-layout: fixed; /* 열 폭을 고정해 좌/우 칸 폭을 맞춘다 */
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* 열 폭: 작업구분 좌/우와 도장구분 좌/우가 같은 폭 */
+.order-table .w-part { width: 8em; }
+
+/* PC: 파트 이름(프런트서스펜션 등)은 한 줄로 쓴다 */
+@media (min-width: 601px) {
+  .order-table td.c-part { white-space: nowrap; }
+}
+.order-table .w-no { width: 3.5em; }
+.order-table .w-side { width: 3.25em; }
+.order-table td.work,
+.order-table td.paint { white-space: normal; }
+
+.order-table th,
+.order-table td {
+  border: 1px solid var(--line);
+  padding: 8px 6px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.order-table thead th {
+  background: var(--bg);
+  font-weight: 700;
+}
+
+.order-table td.c-part { font-weight: 700; background: var(--bg); }
+.order-table td.c-item { text-align: left; }
+.order-table td.c-no { color: var(--muted); }
+
+.order-table td.work,
+.order-table td.paint {
+  cursor: pointer;
+  user-select: none;
+  min-width: 64px;
+  transition: filter 0.1s;
+}
+
+.order-table td.work:active,
+.order-table td.paint:active { filter: brightness(0.92); }
+
+.order-table td.work.swap,
+.order-table td.paint.swap { background: var(--red); color: var(--red-text); font-weight: 600; }
+.order-table td.work.sheet,
+.order-table td.paint.sheet { background: var(--blue); color: var(--blue-text); font-weight: 600; }
+
+.order-table td.empty-cell { color: var(--muted); }
+
+.empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.summary ul { padding-left: 18px; margin: 8px 0 0; }
+.summary li { margin-bottom: 4px; }
+
+/* 휴대폰 화면 */
+@media (max-width: 600px) {
+  .screen { padding: 12px; }
+  .order-table { font-size: 13px; }
+  .order-table th, .order-table td { padding: 6px 4px; }
+  .order-table td.c-item { font-size: 13px; }
+}
+
+/* 인쇄: A4 가로 */
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+  body { background: #fff; color: #000; font-size: 11px; }
+  :root { --card: #fff; --bg: #fff; --line: #999; --text: #000; --muted: #333; }
+  .app-header, #screen-input, .order-buttons, .legend-help, #summary { display: none !important; }
+  #screen-order { padding: 0; max-width: none; }
+  .card { border: none; padding: 0; }
+  .table-wrap { overflow: visible; }
+  .order-table tr { break-inside: avoid; }
+  .order-table th, .order-table td { padding: 3px 4px; }
+  .order-table td.work.swap, .order-table td.paint.swap,
+  .order-table td.work.sheet, .order-table td.paint.sheet {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+}
+
+/* ---- v0.1.1 추가: 차량 목록, 작업지시서 머리글 한 덩어리, 구획선, 팝업 ---- */
+
+.suggest li .cat {
+  float: right;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.order-card {
+  padding: 0;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+}
+
+/* 상단 두 구역: 왼쪽에 큰 제목, 오른쪽에 내용 */
+.order-section {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+}
+
+.order-section + .order-section {
+  border-top: 2px solid var(--text);
+}
+
+.sec-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.order-card .order-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-card .legend {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .order-section { grid-template-columns: 1fr; gap: 8px; }
+  .sec-title { font-size: 18px; }
+}
+
+.legend-help {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* 엑셀 샘플처럼 파트 경계와 바깥 테두리는 진하게, 나머지는 옅게 */
+.order-table {
+  border: 2px solid var(--text);
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid var(--line);
+  line-height: 1.1;
+  padding: 1px 4px;
+}
+
+.order-table td.c-item {
+  font-weight: 600;
+}
+
+.order-table tr.part-start > td {
+  border-top: 2px solid var(--text);
+}
+
+/* 짙은 외곽선: NO 열, 작업구분 묶음, 도장구분 묶음의 좌우 */
+.order-table .c-no,
+.order-table .grp-l {
+  border-left: 2px solid var(--text);
+}
+
+.order-table .c-no,
+.order-table .grp-r {
+  border-right: 2px solid var(--text);
+}
+
+/* 머리글은 스크롤해도 고정 */
+.order-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg);
+}
+
+.order-table thead tr + tr th {
+  /* 두 번째 머리글 줄의 top 은 화면에서 자바스크립트가 맞춘다 */
+  z-index: 3;
+}
+
+.order-table tr.stripe > td.c-no,
+.order-table tr.stripe > td.c-item,
+.order-table tr.stripe > td.c-part,
+.order-table tr.stripe > td.work:not(.swap):not(.sheet),
+.order-table tr.stripe > td.paint:not(.swap):not(.sheet) {
+  background: color-mix(in srgb, var(--accent) 6%, var(--card));
+}
+
+.order-table td.work,
+.order-table td.paint {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 20;
+}
+
+.modal-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  width: min(320px, 100%);
+  text-align: center;
+}
+
+.modal-box p {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+
+@media print {
+  
+  .order-table tr.stripe > td { background: none !important; }
+}
+
+/* 파트 칸의 기본 교환 버튼 */
+.base-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* 파트 칸 너비 안에 맞춘다: 넓으면 한 줄, 좁은 휴대폰 칸에서는 두 줄로 내려가 잘리지 않는다 */
+.base-btn {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 11px;
+  line-height: 1.25;
+  padding: 4px 0;
+  white-space: normal;
+  word-break: break-all;
+}
+
+/* 휴대폰: 표 글자를 줄이고 도장 글자는 두 줄까지 허용 */
+@media (max-width: 600px) {
+  .order-table { font-size: 11px; }
+  .order-table .w-part { width: 3.4em; }
+  .order-table .w-no { width: 2.4em; }
+  .order-table .w-side { width: 2.6em; }
+  .order-table td.work,
+  .order-table td.paint { white-space: normal; }
+}
+
+/* 착안점(복원수리) 열과 자료 업로드 */
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.notice.ok {
+  color: var(--blue-text);
+  background: var(--blue);
+}
+
+.order-table .w-tip { width: 5.5em; }
+
+.order-table td.c-tip {
+  text-align: left;
+  vertical-align: top;
+  padding: 4px 6px;
+  white-space: normal;
+}
+
+.order-table th.c-tip {
+  text-align: center;
+}
+/* 착안점(복원수리) 머리글: '착안점' 한 줄, '(복원수리)' 한 줄 (글자가 중간에 끊기지 않게) */
+.order-table th.c-tip .tip-l1,
+.order-table th.c-tip .tip-l2 { display: block; white-space: nowrap; }
+
+.tip-open {
+  display: block;
+  margin: 0 auto;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.tip-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+}
+
+.tip-list li {
+  border-bottom: 1px solid var(--line);
+}
+
+.tip-list li:last-child { border-bottom: none; }
+
+.tip-option {
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-radius: 0;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.tip-option:hover { background: var(--bg); }
+
+.tip-pick-box {
+  width: min(560px, 100%);
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.tip-pick-box h3 { margin: 0 0 10px; font-size: 16px; }
+
+.tip-pick-box #tip-pick-close { width: 100%; margin-top: 12px; }
+
+/* 보기 팝업 표: 왼쪽 작업내역(넓게), 오른쪽 이미지 보기(고정 폭). 모든 행의 높이를 같게 맞춘다 */
+.tip-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tip-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 10px;
+  height: 44px;
+  vertical-align: middle;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.tip-table tr:last-child td { border-bottom: none; }
+
+.tip-text {
+  cursor: pointer;
+  word-break: keep-all;
+}
+
+.tip-text:hover { background: var(--bg); }
+
+.tip-pic-cell {
+  width: 116px;
+  padding: 6px;
+  text-align: center;
+  border-left: 1px solid var(--line);
+}
+
+.tip-pic-cell .tip-pic {
+  margin: 0;
+  width: 100%;
+  padding: 6px 4px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tip-table .tip-empty {
+  text-align: center;
+  color: var(--muted);
+}
+
+.list-link {
+  color: var(--accent, #2456a6);
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.list-link-row { margin: 0 0 8px; }
+
+.sync-status {
+  font-size: 12px;
+  color: var(--muted, #6b7585);
+  align-self: center;
+}
+
+.tip-item {
+  display: flex;
+  align-items: stretch;
+}
+
+.tip-item .tip-option { flex: 1; min-width: 0; }
+
+.tip-pic {
+  flex: none;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin: 3px 6px 3px 0;
+  white-space: nowrap;
+}
+
+.tip-empty {
+  padding: 6px 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tip-value {
+  margin-top: 6px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.tip-modal .tip-box {
+  width: min(520px, 100%);
+  cursor: pointer;
+}
+
+.tip-modal img {
+  display: block;
+  max-width: 100%;
+  max-height: 60vh;
+  margin: 0 auto 12px;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .order-table .w-tip { width: 4.5em; }
+  .tip-open { font-size: 11px; padding: 3px 4px; }
+  .tip-option { font-size: 12px; }
+}
+
+/* 휴대폰: 열이 많아 표를 가로로 밀어서 본다. 이때 고정 머리글은 쓰지 않는다 (가로 스크롤 영역과 충돌) */
+@media (max-width: 600px) {
+  .order-card { position: static; }
+  .table-wrap { overflow-x: auto; }
+  .order-table {
+    width: 600px;
+    font-size: 12px;
+  }
+  .order-table .w-part { width: 4em; }
+  .order-table .w-no { width: 3em; }
+  .order-table .w-item { width: 20em; } /* 주작업항목이 한 줄에 들어가도록 넓힌다 (기타메모 칸은 그만큼 줄인다) */
+  .order-table td.c-item { white-space: nowrap; }
+  .order-table .w-side { width: 2.6em; }
+  .order-table .w-tip { width: 4.5em; }
+  .order-table thead th { position: static; }
+  .order-table td.work,
+  .order-table td.paint { white-space: nowrap; }
+}
+
+
+/* 기타메모사항 열 */
+.order-table .w-memo { width: 30em; }
+
+.order-table th.c-memo { text-align: center; }
+
+.order-table td.c-memo { padding: 4px; }
+
+.memo-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 0;
+  line-height: 1.15;
+  font: inherit;
+  font-size: 13px;
+  padding: 1px 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--text);
+  resize: vertical;
+}
+
+@media (max-width: 600px) {
+  .order-table { width: 680px; }
+  .order-table .w-memo { width: 14em; }
+  .memo-input { font-size: 12px; }
+}
+
+/* 요약의 도장 표기: 파란색 */
+.sum-paint {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* 차량정보 제목과 상단 배지 */
+.sec-title.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sec-title.clickable:hover {
+  color: var(--accent);
+}
+
+.vehicle-badge {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: calc(100vw - 32px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 기타메모사항·착안점 열의 굵은 세로선 */
+.order-table th.c-memo,
+.order-table td.c-memo,
+.order-table th.c-tip,
+.order-table td.c-tip {
+  border-left: 2px solid var(--text);
+}
+
+/* ---------- 작업지시서 추가 기능 (보기/수정, 일반, 기타메모) ---------- */
+
+/* 2. 작업지시서 작성 제목줄: 왼쪽 제목, 오른쪽 버튼 */
+.sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sec-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sec-actions button {
+  height: 40px;
+  min-width: 96px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--accent, #2456a6);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--accent, #2456a6);
+  cursor: pointer;
+}
+
+.lock-note {
+  font-size: 13px;
+  color: var(--muted, #6b7585);
+}
+
+/* 모달 공통 버튼 줄 */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.modal-actions button {
+  min-width: 96px;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--accent, #2456a6);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--accent, #2456a6);
+  cursor: pointer;
+}
+
+.modal-actions button.primary,
+.modal-box > button.primary {
+  background: var(--accent, #2456a6);
+  color: #fff;
+}
+
+.modal-box.wide { width: min(560px, 100%); max-height: 80vh; overflow-y: auto; text-align: left; }
+/* 기타메모사항 입력 팝업: 화면 높이에 맞추고, 목록 부분만 스크롤 (모든 행을 볼 수 있다) */
+.modal-box.memo-bank-box {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+}
+.memo-bank-box .memo-bank-scroll { flex: 1 1 auto; min-height: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.memo-bank-box .memo-bank-scroll thead th { position: sticky; top: 0; background: var(--card); z-index: 1; }
+.memo-bank-box > button, .memo-bank-box > .modal-actions { flex: 0 0 auto; }
+.modal-box h3 { margin: 0 0 8px; font-size: 16px; }
+.modal-box .hint { margin: 0 0 10px; font-size: 13px; color: var(--muted, #6b7585); }
+
+/* 기타메모사항 목록 편집 */
+.memo-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+}
+
+.memo-table th,
+.memo-table td {
+  border-bottom: 1px solid var(--line, #d9dee7);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.memo-table th { background: var(--bg, #f4f6f9); font-weight: 600; }
+.memo-table .no-col { width: 48px; text-align: center; }
+.memo-table .grip-col { width: 34px; text-align: center; cursor: grab; color: var(--muted, #6b7585); user-select: none; }
+.memo-table .del-col { width: 64px; text-align: center; }
+.memo-table input { width: 100%; box-sizing: border-box; padding: 6px 8px; font-size: 14px; }
+.memo-table tr.pick-row { cursor: pointer; }
+.memo-table tr.pick-row:hover td { background: var(--bg, #f4f6f9); }
+.memo-table button { padding: 4px 8px; font-size: 12px; }
+
+/* 기타메모 칸: 입력칸 + 오른쪽 선택 버튼 */
+.memo-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.memo-wrap .memo-input { flex: 1; min-width: 0; }
+
+.memo-pick {
+  flex: none;
+  padding: 0 6px;
+  font-size: 11px;
+  border: 1px solid var(--accent, #2456a6);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--accent, #2456a6);
+  cursor: pointer;
+}
+
+/* 일반 작업 선택 목록 */
+.general-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.general-item {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid var(--line, #d9dee7);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.general-item.on {
+  background: var(--accent, #2456a6);
+  border-color: var(--accent, #2456a6);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* 고정 머리글이 흔들리지 않도록: 테두리를 겹치지 않게 하고, 카드는 제자리에 붙인다 */
+.order-table { border-collapse: separate; border-spacing: 0; }
+.order-card { transform: translateZ(0); }
+
+/* ---------- 작업지시서 상단: 1·2 구역을 한 줄씩으로 줄인다 (고정 영역) ---------- */
+#screen-order { padding-top: 0; gap: 0; }
+#screen-order > .order-card { margin-top: 0; }
+#screen-order .order-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  z-index: 6;
+}
+#screen-order .order-card .order-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 6px 12px;
+  min-height: 0;
+  background: var(--card);
+}
+#screen-order .order-card .order-section + .order-section { border-top: 2px solid var(--text); }
+#screen-order .sec-title { font-size: 15px; font-weight: 800; white-space: nowrap; margin: 0; line-height: 1.2; }
+#screen-order .order-info { font-size: 14px; white-space: nowrap; }
+#screen-order .order-info b { font-size: 15px; }
+#screen-order .order-info .sub { display: none; }
+#screen-order .order-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+  align-items: center;
+}
+#screen-order .order-buttons button,
+#screen-order .order-buttons .list-link {
+  height: 30px;
+  min-width: 0;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+#screen-order .order-buttons button.primary { width: auto; padding: 0 12px; font-size: 12px; }
+#screen-order .sync-status { font-size: 11px; }
+#screen-order .small-action {
+  height: 24px;
+  min-width: 0;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid var(--accent, #2456a6);
+  border-radius: 5px;
+  background: var(--card);
+  color: var(--accent, #2456a6);
+  cursor: pointer;
+}
+#screen-order .lock-note { font-size: 12px; color: var(--muted); }
+#screen-order .legend-inline { display: inline-flex; gap: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+#screen-order .legend-inline .swatch { width: 14px; height: 10px; }
+#screen-order .legend-help { font-size: 11px; color: var(--muted); line-height: 1.3; min-width: 0; }
+
+/* 표 행 높이를 줄인다 */
+#screen-order .order-table th,
+#screen-order .order-table td { padding: 1px 4px; line-height: 30px; font-size: 12.2px; }
+#screen-order .order-table .memo-input { min-height: 0; padding: 0 4px; font-size: 12.2px; line-height: 1.2; }
+#screen-order .memo-pick { height: 20px; }
+#screen-order .tip-open { padding: 0 6px; font-size: 11px; line-height: 1.4; }
+#screen-order .pill { font-size: 11px; }
+
+/* 고정 머리글: 표 머리글이 스크롤 중에도 흔들리지 않도록 */
+#screen-order .order-table thead th { position: sticky; }
+@media (max-width: 600px) {
+  #screen-order .order-card .order-section { padding: 6px 8px; }
+  #screen-order .order-buttons { margin-left: 0; }
+}
+
+/* 차량 입력 화면 우측 상단: 목록 보기 링크 + 설정 아이콘 */
+.input-top {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.input-top .list-link { font-size: 14px; }
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 18px;
+  text-decoration: none;
+}
+.icon-btn[hidden] { display: none; }
+
+/* 수정 중 바뀐 칸은 녹색 음영 */
+.order-table td.changed,
+.order-table tr.stripe > td.changed { background: #bfeecb !important; color: #0b4d24; }
+.order-table td.c-memo.changed { background: #bfeecb !important; }
+.order-table td.c-memo.changed .memo-input { background: transparent; }
+
+/* 기타메모 칸도 줄 음영을 따라간다 */
+.order-table tr.stripe > td.c-memo { background: color-mix(in srgb, var(--accent) 6%, var(--card)); }
+.order-table tr.stripe > td.c-memo .memo-input { background: transparent; }
+
+/* 일반: 설명 → 일반 버튼 → 고른 값 순서 */
+#screen-order .general-picked { font-size: 12px; font-weight: 700; color: var(--accent, #2456a6); white-space: nowrap; }
+#screen-order .general-picked:empty { display: none; }
+#screen-order #general-help { white-space: nowrap; }
+#screen-order .legend-help.picked { color: var(--text); }
+#reload-saved { height: 30px; padding: 0 10px; font-size: 12px; }
+
+/* ---------- 작업지시서 화면 Phase 1: 녹색 음영, 수정 버튼, 작업 요약 ---------- */
+#screen-order .swatch.green { background: #bfeecb; border: 1px solid #5fb878; }
+
+/* 수정 버튼: 눈에 띄는 알약형 */
+#screen-order #edit-order {
+  height: 26px;
+  min-width: 0;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #2f9e6a, #1f7a52);
+  box-shadow: 0 2px 6px rgba(31, 122, 82, 0.35);
+  cursor: pointer;
+}
+#screen-order #edit-order::before { content: "✎ "; }
+#screen-order #edit-order:hover { filter: brightness(1.08); }
+
+/* 작업 요약: 값이 있을 때만 보이는 행 목록 */
+#summary { padding: 8px 12px; margin: 0 0 8px; }
+#summary h2 { font-size: 14px; margin: 0 0 4px; }
+#summary #summary-count { font-size: 12px; color: var(--muted); margin: 0 0 4px; }
+#summary #summary-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+#summary .sum-item { font-size: 12px; white-space: nowrap; }
+#summary .sum-name { font-weight: 400; }
+#summary .sum-work { margin-left: 0; font-weight: 400; }
+/* 항목 전체(이름_작업)를 작업 종류의 색으로 */
+#summary li.sum-item.red { color: #c81e2b; }
+#summary li.sum-item.blue { color: #1f6fe0; }
+#summary li.sum-item.gray { color: #5b6170; }
+#summary .sum-paint { margin-left: 4px; font-weight: 800; color: #7a3ec0; }
+#summary[hidden] { display: none; }
+/* 작업 요약: "|" 의 좌·우 공백을 같게 하려고 항목 사이의 가로 간격을 없앤다 (공백은 구분선 양쪽 0.7칸으로만 준다) */
+#summary #summary-list { column-gap: 0; }
+
+#screen-order #ack-order { border-color: #8b5a2b; color: #8b5a2b; }
+#screen-order #ack-order::before { content: "✔ "; }
+
+/* 작업 요약: 제목 오른쪽에 건수, 항목은 행으로 */
+#summary .sum-head { display: flex; align-items: baseline; gap: 10px; }
+#summary .sum-head h2 { margin: 0; }
+#summary #summary-count { margin: 0; font-size: 12px; color: var(--muted); }
+#summary .sum-paint { font-weight: 800; color: #7a3ec0; margin-left: 0; }
+#summary .sum-work { margin-left: 0; }
+
+/* 2. 작업지시서 작성 줄: 설명 문구가 한 줄에 들어가게, 공간이 모자라면 '보기 모드' 글씨를 뺀다 */
+#screen-order #general-help {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 목록의 '보기': 차량정보 화면은 처음부터 보이지 않고 바로 작업지시서 화면으로 간다 */
+html.deep-link #screen-input { display: none !important; }
+
+/* 보기 모드 글씨는 노출하지 않는다 (보기 모드 여부는 수정 버튼으로 안다) */
+#screen-order #lock-note { display: none; }
+
+/* 설명 문구: 줄이 잘리므로 누르면 전체 내용을 팝업으로 보인다 */
+#screen-order #general-help,
+#screen-order #order-info { cursor: pointer; }
+#help-pop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: transparent; /* 바깥을 누르면 닫히도록 투명한 덮개로 둔다 */
+}
+#help-pop[hidden] { display: none; }
+#help-pop .help-pop-box {
+  position: fixed; /* 누른 항목 아래에 showHelpPopup()이 위치를 정한다 */
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(520px, calc(100vw - 16px));
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #fff;
+  color: #1b1f2a;
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: keep-all;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* 1. 차량정보: 차량 정보와 버튼을 한 줄로 */
+#screen-order #vehicle-section { flex-wrap: nowrap; }
+#screen-order #vehicle-section > .order-info { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+#screen-order #vehicle-section > .order-buttons { flex-wrap: nowrap; flex: 0 0 auto; }
+@media (max-width: 1100px) {
+  #screen-order #vehicle-section { flex-wrap: wrap; }
+  #screen-order #vehicle-section > .order-buttons { flex-wrap: wrap; }
+}
+
+/* 작업 요약: 행간 1.7, 항목 사이 구분선 */
+#summary #summary-list { line-height: 1.7; }
+#summary .sum-sep { color: var(--muted); white-space: pre; font-weight: 800; }
+
+/* ---------- 작업 요약 간격 (기준안) ---------- */
+#summary #summary-list {
+  line-height: 1.5;          /* 줄바꿈된 내용 사이 행간 */
+  row-gap: 0.5em;            /* 주작업항목 사이 행간 */
+  padding-left: 1em;         /* 입력 시작은 한 칸 띄고 */
+}
+#summary .sum-sep { padding: 0 0.7em; }   /* 세로선 좌우 0.7칸 */
+/* 일반·기타메모 항목 사이의 "|" (작업 요약과 같은 모양) */
+#screen-order .list-sep { color: var(--muted); font-weight: 800; white-space: pre; padding: 0 0.5em; }
+
+/* ---------- 1·2 구역 아이콘 배치 고정: 창 폭이 바뀌어도 줄이 바뀌지 않는다 ---------- */
+@media (min-width: 601px) {
+  #screen-order .order-card { min-width: 960px; overflow-x: auto; }
+  #screen-order #vehicle-section,
+  #screen-order #work-section { flex-wrap: nowrap; }
+  #screen-order #vehicle-section > .order-buttons { flex-wrap: nowrap; }
+}
+
+/* ---------- 2. 작업지시서 작성: 샘플 그림과 같은 구성 ---------- */
+#screen-order #work-section { display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 8px 12px; }
+#screen-order .work-line { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; min-width: 0; }
+#screen-order .work-line .sec-title { font-size: 15px; white-space: nowrap; }
+
+/* 수정: 초록 알약 + ✎ / 수정 확인: 갈색 테두리 + ✔ */
+#screen-order #edit-order.edit {
+  height: 26px; padding: 0 14px; border: none; border-radius: 999px;
+  background: linear-gradient(135deg, #2f9e6a, #1f7a52); color: #fff;
+  font-size: 12px; font-weight: 800; box-shadow: 0 2px 6px rgba(31, 122, 82, 0.35);
+}
+#screen-order #ack-order.ack {
+  height: 26px; padding: 0 12px; border: 1.5px solid #8b5a2b; border-radius: 999px;
+  background: #fff; color: #8b5a2b; font-size: 12px; font-weight: 700;
+}
+
+/* 음영 범례: 색 칩 */
+#screen-order .legend-inline { display: inline-flex; gap: 6px; white-space: nowrap; }
+#screen-order .chip { padding: 3px 9px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #1d2430; }
+#screen-order .chip.red { background: #fbd3d3; }
+#screen-order .chip.blue { background: #d7e6fb; }
+#screen-order .chip.green { background: #cdeed2; }
+
+/* 설명 문구: 회색 작은 글씨 */
+#screen-order #general-help { font-size: 11px; color: #6b7585; }
+
+/* 일반: 파란 테두리 알약, 고른 값은 파란 글씨 */
+#screen-order #general-btn.general,
+#screen-order #memo-pick-btn.general {
+  height: 24px; padding: 0 12px; border: 1px solid #2456a6; border-radius: 6px;
+  background: #fff; color: #2456a6; font-size: 11px; font-weight: 700;
+}
+#screen-order .general-picked { font-size: 13px; font-weight: 600; color: #2456a6; white-space: nowrap; }
+#screen-order .general-picked:empty { display: none; }
+
+/* 작업 요약: 위아래 여백 2배, 항목 간격 2배, 세로선 좌우 0.7칸 */
+#summary { padding: 16px 14px; }
+#summary #summary-list { row-gap: 1em; column-gap: 0; }
+#summary .sum-sep { padding: 0 0.7em; }
+
+/* 작업 요약: 행간 0.6 */
+#summary #summary-list { line-height: 0.6; }
+/* 작업 요약 접기: 접을 수 있을 때만 안내를 보인다 */
+#summary.sum-fold .sum-head { cursor: pointer; }
+/* 안내 단추: 작업 요약 제목 줄의 오른쪽 (진한 회색 바탕, 흰 글자) */
+#summary.sum-fold .sum-head::after {
+  content: "▼ 누르면 전체 보기";
+  margin-left: 3em; /* 건수 글자 바로 뒤에서 세 칸 띄운다 */
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #4a4f57;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+#summary.sum-fold.expanded .sum-head::after { content: "▲ 누르면 접기"; }
+#summary .sum-sep { padding: 0 0.7em; }
+#summary .sum-sep[hidden] { display: none; }
+
+/* 작업 요약 행간: 항목 간 행간 1.0 */
+#summary #summary-list { line-height: 1.0; }
+#summary #summary-list li.sum-item { line-height: 1.0; }
+
+/* Shift+Enter 로 바꾼 보기: 항목을 한 줄씩, 위아래 한 칸 띄움, 구분선(|) 없음 */
+#summary #summary-list.stacked { flex-direction: column; align-items: flex-start; row-gap: 0; }
+#summary #summary-list.stacked li.sum-item { margin: 0 0 1em; }
+#summary #summary-list.stacked .sum-sep { display: none; }
+
+/* ---------- 작업 요약: 샘플(아래 그림)과 같은 간격 ---------- */
+#summary #summary-list {
+  margin-top: 7px;           /* 제목과 첫 줄 사이 */
+  padding-left: 13px;        /* 한 칸 들여쓰기 */
+  row-gap: 9px;              /* 주작업항목 줄 사이 간격 */
+  line-height: 1.0;
+}
+#summary #summary-list li.sum-item { line-height: 1.0; }
+#summary .sum-sep { padding: 0 0.4em; }
+
+/* 작업 요약: 2. 작업지시서 작성 박스 안, 일반 줄 아래 */
+#screen-order #summary.summary-in-work {
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--line, #d9dee7);
+  border-radius: 0;
+  margin: 4px 0 0;
+  padding: 6px 0 0;
+  box-shadow: none;
+}
+#screen-order #summary.summary-in-work h2 { font-size: 13px; }
+#screen-order #summary.summary-in-work #summary-count { font-size: 11px; }
+
+/* 입고일·출고일·보험사·담보·도장코드 줄 */
+#screen-input #meta-section { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 6px 12px; }
+#screen-input .meta-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+#screen-input .meta-item b { font-size: 13px; }
+#screen-input .meta-item input, #screen-input .meta-item select { height: 26px; font-size: 12px; padding: 0 6px; border: 1px solid var(--line, #d9dee7); border-radius: 5px; }
+#screen-input #out-date { width: 96px; }
+#screen-input #paint-code { width: 110px; }
+#screen-input #insurer, #screen-order #coverage { min-width: 110px; }
+#screen-input .cal-btn { height: 26px; padding: 0 6px; font-size: 12px; border: 1px solid var(--line, #d9dee7); border-radius: 5px; background: var(--card); cursor: pointer; }
+#screen-input #paint-coats { color: #7a3ec0; font-weight: 700; }
+#screen-input .meta-item input:disabled, #screen-input .meta-item select:disabled { background: #f1f3f7; color: #6b7585; }
+
+/* ---------- 1) 차량정보 (최초 입력 화면): 샘플 그림 배치 ---------- */
+#vehicle-card { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+#vehicle-card > h2 { grid-column: 1 / -1; margin: 0 0 2px; font-size: 16px; }
+#vehicle-card > .field { margin: 0; }
+#vehicle-card #vehicle-input, #vehicle-card #plate-input { height: 40px; box-sizing: border-box; }
+#vehicle-card #open-order { grid-column: 1 / -1; }
+
+#screen-input #meta-section {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  text-align: left;
+}
+#screen-input .meta-sub {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line, #e5e8ee);
+}
+#screen-input .meta-item { display: flex; flex-direction: column; gap: 6px; min-width: 0; text-align: left; align-items: stretch; }
+#screen-input .meta-item .lbl { font-size: 13px; color: var(--muted, #555); }
+#screen-input .meta-in b { display: block; height: 40px; line-height: 40px; padding: 0 12px; border: 1px solid var(--line, #d9dee7); border-radius: 6px; background: #f7f8fa; font-size: 15px; }
+
+#screen-input .inline-row { display: flex; gap: 6px; }
+#screen-input #out-date { flex: 1; min-width: 0; height: 40px; font-size: 15px; padding: 0 10px; box-sizing: border-box; border: 1px solid var(--line, #d9dee7); border-radius: 6px; }
+#screen-input .cal-btn { height: 40px; min-width: 42px; font-size: 16px; border: 1px solid var(--line, #d9dee7); border-radius: 6px; background: var(--card); cursor: pointer; }
+#screen-input .meta-ins select, #screen-input .meta-cov select, #screen-input #paint-code {
+  height: 40px; font-size: 15px; padding: 0 10px; box-sizing: border-box; width: 100%;
+  border: 1px solid var(--line, #d9dee7); border-radius: 6px; background: var(--card);
+}
+#screen-input #paint-coats { font-size: 12px; color: #7a3ec0; font-weight: 700; }
+
+#screen-input .meta-item .lbl { display: block; text-align: left; }
+
+/* 도장코드 자동검색: 입력 칸 바로 아래에 후보 목록 */
+#screen-input .paint-wrap { position: relative; width: 100%; }
+#screen-input .paint-wrap > input { width: 100%; box-sizing: border-box; }
+#screen-input .paint-suggest {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
+  margin: 2px 0 0; max-height: 220px; overflow-y: auto;
+  background: var(--card); border: 1px solid var(--line, #d9dee7); border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+#screen-input .paint-suggest li { padding: 8px 10px; font-size: 14px; }
+#screen-input .paint-suggest[hidden] { display: none; }
+
+/* 기타메모사항 선택 줄 */
+#screen-order .memo-line { align-items: center; }
+#screen-order #memo-picked { font-size: 13px; font-weight: 600; color: #2456a6; white-space: nowrap; }
+#screen-order #memo-picked[hidden] { display: none; }
+.memo-table .check-col { width: 34px; text-align: center; }
+
+/* 스크롤 중 표 구획선이 번쩍이며 사라지지 않도록: 셀마다 별도 합성 레이어로 그리고, 선은 셀 단위로 긋는다 */
+#screen-order .table-wrap { -webkit-transform: translateZ(0); transform: translateZ(0); }
+#screen-order .order-table th,
+#screen-order .order-table td { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+
+/* 기타메모사항 입력: 신설(주작업항목) 선택 + 내용 + 추가 */
+/* 구분(신규) · 기타메모 내용 · 주작업항목 선택 · 추가: 한 행에 나열 */
+.memo-new { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; margin: 8px 0; }
+.memo-new select { height: 32px; max-width: 200px; min-width: 0; font-size: 13px; }
+.memo-new input { min-width: 0; height: 32px; font-size: 13px; box-sizing: border-box; }
+#memo-new-cat { flex: 0 0 96px; }
+#memo-new-text { flex: 1 1 auto; }
+.memo-new button { flex: 0 0 auto; height: 32px; padding: 0 12px; font-size: 13px; }
+
+/* 기타메모 목록: 구분 열 (구분 버튼 + 선택) */
+.memo-bank-box .cat-col { white-space: nowrap; }
+.memo-bank-box .cat-head { border: none; background: none; font: inherit; font-weight: 800; color: inherit; padding: 0; cursor: pointer; }
+.memo-bank-box #memo-cat-filter { height: 26px; max-width: 96px; font-size: 12px; }
+/* 목록에서 바로 고치는 칸: 구분 입력, 주작업항목 선택 */
+.memo-bank-box .cat-edit { cursor: pointer; }
+.memo-bank-box .cat-input { width: 100%; box-sizing: border-box; height: 24px; font-size: 11px; padding: 0 4px; }
+/* 글자는 작게, 내용 칸은 줄여서 보여도 전부 보이게 (글이 길면 칸 안에서 줄바꿈) */
+.memo-bank-box .memo-table { font-size: 11px; }
+.memo-bank-box .memo-table th { font-size: 11px; padding: 3px 3px; text-align: center; }
+/* 삭제 단추는 선택 단추와 같은 크기 */
+.memo-bank-box .memo-table .del-col button { height: 22px; padding: 0 6px; font-size: 10px; border: 1px solid var(--line, #d9dee7); border-radius: 4px; background: var(--card); color: var(--accent, #2456a6); cursor: pointer; }
+.memo-bank-box .memo-table td { padding: 2px 3px; vertical-align: middle; }
+.memo-bank-box .memo-table td input { font-size: 11px; height: 24px; padding: 0 4px; box-sizing: border-box; width: 100%; }
+.memo-bank-box .memo-table .grip-col { width: 14px; }
+.memo-bank-box .memo-table .no-col { width: 22px; }
+.memo-bank-box .memo-table .cat-col { width: 62px; }
+.memo-bank-box .memo-table .del-col { width: 40px; }
+.memo-bank-box .memo-table td.item-col { min-width: 150px; }
+/* 설정된 주작업항목: 이름은 왼쪽, 선택 단추는 칸의 맨 오른쪽 */
+.memo-bank-box .item-wrap { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+.memo-bank-box .item-name { flex: 1 1 auto; min-width: 0; text-align: left; word-break: keep-all; }
+.memo-bank-box .item-pick { flex: 0 0 auto; height: 22px; padding: 0 6px; font-size: 10px; border: 1px solid var(--line, #d9dee7); border-radius: 4px; background: var(--card); color: var(--accent, #2456a6); cursor: pointer; }
+.memo-bank-box .item-select { width: 100%; max-width: 100%; height: 24px; font-size: 11px; box-sizing: border-box; }
+/* 구분 선택 칸: 선택 단추와 같은 높이, 가로 폭은 예전의 절반 */
+.memo-bank-box #memo-cat-filter { height: 22px; width: 31px; max-width: 31px; min-width: 31px; font-size: 10px; padding: 0 1px; box-sizing: border-box; }
+.memo-bank-box .cat-head { font-size: 11px; }
+
+/* 휴대폰(갤럭시 폴드 포함): 착안점 '보기' 팝업을 화면 전체로 펼쳐 내용이 잘리지 않게 한다 */
+@media (max-width: 600px) {
+  #tip-pick { padding: 0; }
+  #tip-pick .tip-pick-box {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border-radius: 0;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+  #tip-pick .tip-table th,
+  #tip-pick .tip-table td { white-space: normal; word-break: keep-all; font-size: 13px; }
+}
+
+/* 작업지시서 표: 표 전체가 화면 폭 안에 들어가 가로 스크롤 없이 한 번에 보이게 한다 (휴대폰·폴드 펼침 화면, 폭 1000px 이하) */
+@media (max-width: 1000px) {
+  #screen-order .order-card { min-width: 0; overflow-x: visible; position: static; } /* 휴대폰: 1. 차량정보~작업요약을 고정하지 않고 표와 함께 위아래로 움직인다 */
+  #screen-order .table-wrap { overflow: visible; } /* 고정 머리글(sticky)이 작동하려면 감싸는 칸이 스크롤 영역이면 안 된다 */
+  #screen-order .order-table { width: 100%; table-layout: fixed; font-size: 10px; }
+  #screen-order .order-table th,
+  #screen-order .order-table td { padding: 3px 1px; font-size: 11px; line-height: 12.5px; overflow-wrap: anywhere; }
+  #screen-order .order-table .memo-input { font-size: 11px; padding: 2px; }
+  #screen-order .order-table col.w-part { width: 12%; }
+  #screen-order .order-table col.w-no { width: 7%; }
+  #screen-order .order-table col.w-item { width: 95px; }
+  #screen-order .order-table col.w-side { width: 6%; }
+  #screen-order .order-table col.w-memo { width: 95px; }
+  #screen-order .order-table col.w-tip { width: 7%; }
+  #screen-order .order-table td.c-item { white-space: normal; }
+  #screen-order .order-table td.work,
+  #screen-order .order-table td.paint { white-space: normal; min-width: 0; }
+  /* 휴대폰에서는 표 머리글도 고정하지 않는다: 차량정보부터 표 전체가 하나로 스크롤된다 */
+  #screen-order .order-table thead th { position: static; }
+}
+
+/* 2. 작업지시서 작성 줄: 수정 / 수정 확인 버튼 글자가 줄바꿈되거나 찌그러지지 않게 한 줄로 고정 */
+#screen-order .work-line > .small-action {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  min-width: max-content;
+  height: 26px;
+  line-height: 24px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+#screen-order .work-line > .sec-title { flex: 0 0 auto; }
+
+/* 작업지시서 표 구획선·행 높이 통일 (휴대폰·폴드 펼침, 폭 1000px 이하)
+   - 칸을 하나의 선으로 그린다 (칸마다 선을 그려 진하고 옅은 선이 섞이던 문제 해결)
+   - 기타메모 입력 칸은 고정 높이로, 글이 길면 칸 안에서 스크롤한다 (행마다 높이가 들쭉날쭉하던 문제 해결) */
+@media (max-width: 1000px) {
+  #screen-order .order-table { border-collapse: collapse; border-spacing: 0; }
+  #screen-order .order-table .memo-input,
+  #screen-order .order-table .memo-input:focus { height: 34px; min-height: 0; resize: none; overflow-y: auto; }
+}
+#screen-order .order-table .memo-input { height: 34px; min-height: 0; resize: none; overflow-y: auto; }
+
+/* 착안점(복원수리) 칸의 '보기' 버튼: 칸의 위아래 가운데 */
+#screen-order .order-table td.c-tip { vertical-align: middle; }
+
+/* 새작업지시서 화면 우측 상단: 공업사명과 버전 */
+#screen-input .input-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+/* 공업사명 글자 크기는 작업지시서 목록의 공업사명(.who)과 같게 (휴대폰 13px / PC 14px) */
+#screen-input .shop-name { font-size: 13px; font-weight: 800; color: #1f3a6e; }
+#screen-input .shop-name[hidden] { display: none; }
+@media (min-width: 1001px) {
+  #screen-input .shop-name { font-size: 14px; }
+}
+/* 공업사명 뒤의 버전 표시는 숨긴다 (버전은 제목 옆과 창 제목에 표시) */
+#screen-input .app-ver { display: none; }
+
+/* PC 작업지시서 작성: 창 폭에 따라 화면이 함께 늘고 줄어든다 (고정 960px 폭을 없앰) */
+@media (min-width: 601px) {
+  /* 화면(.screen)의 최대 폭 1100px을 없애 창 폭을 그대로 따른다 */
+  #screen-order, #screen-input { max-width: none; width: 100%; box-sizing: border-box; }
+  #screen-order .order-card { min-width: 0; width: 100%; max-width: none; overflow-x: visible; box-sizing: border-box; }
+  #screen-order .order-table { width: 100%; font-size: clamp(11px, 0.6vw + 8px, 14px); }
+  #screen-order .order-table th,
+  #screen-order .order-table td { font-size: inherit; }
+  #screen-order .table-wrap { overflow-x: visible; }
+  #screen-order #vehicle-section,
+  #screen-order #work-section { flex-wrap: wrap; }
+}
+
+/* 휴대폰: 1. 차량정보 옆 차량명 줄은 한 줄로 두고, 길면 '…'으로 줄인다. 누르면 전체 내용이 팝업으로 보인다 */
+@media (max-width: 1000px) {
+  #screen-order #vehicle-section { flex-wrap: nowrap; align-items: center; }
+  #screen-order #vehicle-section > .sec-title { flex: 0 0 auto; white-space: nowrap; }
+  #screen-order #vehicle-section > #order-info {
+    flex: 1 1 0; min-width: 0; display: block;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  #screen-order #vehicle-section > #order-info > span { display: inline; white-space: nowrap; }
+  #screen-order #vehicle-section > #order-info b { white-space: nowrap; }
+}
+
+/* 추가된 일반·기타메모 항목: 녹색 글씨 */
+.added-text { color: #1e9e3e; font-weight: 800; }
+#print-sheet .added { color: #1e9e3e; font-weight: 800; }
+
+/* 보험사·담보 하나 더 */
+#screen-input .meta-add { height: 26px; min-width: 26px; margin-left: 4px; border: 1px solid var(--line, #d9dee7); border-radius: 6px; background: var(--card); color: var(--accent, #2456a6); font-weight: 800; cursor: pointer; }
+#screen-input .meta-sub2 { margin-top: 6px; }
+/* 담보 선택 칸 오른쪽에 ＋ 버튼 */
+#screen-input .cov-row { display: flex; align-items: stretch; gap: 4px; min-width: 0; }
+#screen-input .cov-row select { flex: 1 1 auto; min-width: 0; width: auto; }
+#screen-input .cov-row .meta-add { height: 40px; min-width: 40px; margin-left: 0; font-size: 18px; }
+#screen-input .meta-sub2[hidden] { display: none; }
+
+/* 휴대폰 목록: 착안점(복원수리) 머리글은 두 줄로 (착안점 / (복원수리)) */
+@media (max-width: 1000px) {
+  #screen-order .order-table th.c-tip { white-space: nowrap; font-size: 10px; letter-spacing: -0.3px; }
+}
+
+/* 그림 팝업: 화면을 꽉 채운다 (목록 팝업은 그대로 고정 크기) */
+.tip-modal.full .tip-box { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; background: #000; display: flex; align-items: center; justify-content: center; }
+.tip-modal.full img { width: 100%; height: 100%; max-width: 100vw; max-height: 100vh; object-fit: contain; margin: 0; border-radius: 0; }
+.tip-modal.full #tip-caption { display: none; }
+
+/* 입고일: 직접 고칠 수 있는 칸 (출고일과 같은 모양) */
+#screen-input #in-date { width: 100%; box-sizing: border-box; height: 40px; font-size: 15px; padding: 0 10px; border: 1px solid var(--line, #d9dee7); border-radius: 6px; }
+
+/* 새 작업지시서 화면 제목 (왼쪽 상단, 버전 표시) */
+/* 제목 글자 크기는 작업지시서 목록 화면(overview)의 제목·버전과 같게 (휴대폰 18px / PC 19px, 버전 12px / PC 13px) */
+#screen-input .input-top .page-title { margin-right: auto; font-weight: 700; font-size: 18px; color: #1d2430; white-space: nowrap; }
+#screen-input .input-top .page-title .ver { font-size: 12px; font-weight: 400; color: #6b7585; margin-left: 4px; }
+@media (min-width: 1001px) {
+  #screen-input .input-top .page-title { font-size: 19px; }
+  #screen-input .input-top .page-title .ver { font-size: 13px; }
+}
+
+/* 착안점 그림 팝업: 확대·축소 단추 (그림만 바뀐다, 뒤의 목록 크기는 그대로) */
+.tip-modal .tip-box { position: relative; overflow: hidden; }
+.tip-modal .tip-zoom { position: absolute; top: 8px; right: 8px; z-index: 3; display: flex; gap: 4px; }
+.tip-modal .tip-zoom button { height: 32px; min-width: 36px; padding: 0 8px; border: none; border-radius: 6px; background: rgba(255,255,255,0.92); color: #1d2430; font-size: 15px; font-weight: 800; cursor: pointer; }
+.tip-modal #tip-image { transform-origin: center center; touch-action: none; transition: transform 0.08s linear; }
+.summary-count-colors .c-ex { color: #c81e2b; font-weight: 700; }
+#summary-count .c-ex { color: #c81e2b; font-weight: 700; }
+#summary-count .c-sh { color: #1f6fe0; font-weight: 700; }
+#summary-count .c-rm { color: #5b6170; font-weight: 700; }
+
+/* 휴대폰(폭 1000px 이하): 작업지시서 카드와 표의 GPU 레이어를 끈다. 스크롤 중 행이 빠져 보이던 문제 시험 (PC는 그대로) */
+@media (max-width: 1000px) {
+  #screen-order .order-card { transform: none; }
+  #screen-order .table-wrap { transform: none; -webkit-transform: none; }
+  #screen-order .order-table th,
+  #screen-order .order-table td { -webkit-backface-visibility: visible; backface-visibility: visible; }
+}

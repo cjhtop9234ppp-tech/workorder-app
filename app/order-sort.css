@@ -1,0 +1,17 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #fff; color: #1d2530; font-family: "맑은 고딕", "Malgun Gothic", sans-serif; font-size: 18px; line-height: 25px; }
+.bar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 6px 8px; border-bottom: 1px solid #d7dde7; background: #fff; }
+.bar h1 { margin: 0 6px 0 0; font-size: 13px; }
+.bar label { display: inline-flex; gap: 4px; align-items: center; }
+select, button { font: inherit; font-size: 12px; padding: 2px 8px; }
+button.primary { font-weight: 600; }
+#status { margin-left: auto; color: #5b6676; }
+.hint { margin: 4px 8px; color: #5b6676; }
+.list { padding: 0 4px 12px; }
+.row { display: flex; align-items: center; gap: 8px; min-height: 0; padding: 4px 4px; border-bottom: 5px solid #eef1f5; white-space: nowrap; user-select: none; background: #fff; }
+.row.dragging { background: #e6eefc; }
+.grip { flex: none; width: 18px; text-align: center; color: #8a94a3; font-size: 13px; line-height: 1; cursor: grab; touch-action: none; }
+.grip:active { cursor: grabbing; }
+.no { flex: none; width: 2.6em; text-align: right; color: #5b6676; }
+.item { flex: none; font-weight: 600; }
+.text { flex: 1 1 auto; }

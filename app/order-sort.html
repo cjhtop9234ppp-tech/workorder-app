@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>보기순서 변경</title>
+  <link rel="stylesheet" href="order-sort.css">
+</head>
+<body>
+  <header class="bar">
+    <h1>착안점(복원수리) 보기순서</h1>
+    <label>구분
+      <select id="group">
+        <option value="1">1. 승용, RV1, RV2</option>
+        <option value="2">2. 화물1, 화물2</option>
+      </select>
+    </label>
+    <button type="button" id="save" class="primary">순서 저장</button>
+    <button type="button" id="close">닫기</button>
+    <span id="status" aria-live="polite"></span>
+  </header>
+  <p class="hint">왼쪽 ⋮⋮ 를 마우스 왼쪽 버튼으로 끌어서 순서를 바꾸고 "순서 저장"을 누르세요.</p>
+  <div id="list" class="list"></div>
+  <script src="sample-order.js"></script>
+  <script src="order-sort.js"></script>
+</body>
+</html>

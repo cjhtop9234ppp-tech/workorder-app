@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko" class="booting">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1f3a6e">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>작업지시서 목록</title>
+  <!-- 탭(페이지)을 옮길 때 기다리지 않도록 작업지시서 화면과 큰 자료를 미리 받아 둔다 -->
+  <link rel="prefetch" href="index.html">
+  <link rel="prefetch" href="data.js">
+  <link rel="prefetch" href="order-tools.js">
+  <link rel="prefetch" href="app.js">
+  <link rel="prefetch" href="print.js">
+  <link rel="prefetch" href="style.css">
+  <link rel="prefetch" href="print.css">
+  <link rel="prefetch" href="settings.html">
+  <link rel="stylesheet" href="overview.css?v=0.1.450">
+  <link rel="stylesheet" href="calendar.css?v=0.1.450">
+  <!-- 목록은 처음 완성된 모습으로 한 번에 보인다 (준비 전에는 본문을 숨긴다. 안전장치: 6초 뒤에는 무조건 보인다) -->
+  <!-- 공유로 들어온 경우에는 차량 고르기 창이 완성될 때까지 기다린다 (중간에 목록이 먼저 비치지 않게) -->
+  <script>setTimeout(function () { document.documentElement.classList.remove("booting"); }, location.search.indexOf("shared=") >= 0 ? 20000 : 6000);</script>
+  <!-- 카톡 등에서 "공유 → 작업지시서"로 보낸 사진을 받는 서비스 워커 -->
+  <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});</script>
+</head>
+<body>
+  <header class="top">
+    <h1>작업지시서 목록 <span class="ver" id="ver"></span></h1>
+    <div class="top-links">
+      <span class="who" id="who"></span>
+      <a class="back" href="index.html">새 작업지시서</a>
+      <a class="back" id="settings-link" href="settings.html" hidden>설정</a>
+      <button type="button" class="linkish" id="logout" hidden>로그아웃</button>
+    </div>
+  </header>
+
+  <!-- 부서 읽기 지정폴더: 폴더 안의 차량번호 폴더를 읽어 부서를 목록에 저장한다 (마스터, PC 크롬·엣지) -->
+  <div class="dept-overlay" id="dept-modal" hidden style="display:none">
+    <div class="dept-box" role="dialog" aria-labelledby="dept-title">
+      <h3 id="dept-title">부서 읽기 지정폴더</h3>
+      <p class="dept-hint">지정한 폴더 안에서 차량번호와 같은 이름의 폴더를 찾고, 그 안의 사진 이름 중 마지막 파일에서 부서를 읽어 목록에 저장합니다.</p>
+      <div class="dept-actions">
+        <button type="button" id="dept-pick">폴더 지정</button>
+        <span id="dept-folder" class="dept-folder">지정하지 않음</span>
+      </div>
+      <div class="dept-actions">
+        <button type="button" class="primary" id="dept-read">지금 읽기 · 저장</button>
+      </div>
+      <p class="status" id="dept-status" aria-live="polite"></p>
+      <div class="dept-result">
+        <table class="orders">
+          <thead><tr><th>차량번호</th><th>사진 수</th><th>마지막 사진</th><th>부서</th></tr></thead>
+          <tbody id="dept-rows"></tbody>
+        </table>
+      </div>
+      <div class="modal-actions"><button type="button" id="dept-close">닫기</button></div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="card">
+      <form class="search" id="search-form">
+        <div class="row">
+          <label class="inline">기간
+            <select id="date-kind" aria-label="날짜 기준">
+              <option value="created">생성일</option>
+              <option value="in">입고일</option>
+              <option value="out">출고일</option>
+            </select>
+            <span class="date-field"><input type="text" id="date-from" inputmode="numeric" placeholder="2026-05-02" maxlength="10" aria-label="시작일"><button type="button" class="cal-btn" data-cal="date-from" title="달력에서 고르기">📅</button></span>
+            ~ <span class="date-field"><input type="text" id="date-to" inputmode="numeric" placeholder="2026-05-02" maxlength="10" aria-label="종료일"><button type="button" class="cal-btn" data-cal="date-to" title="달력에서 고르기">📅</button></span>
+          </label>
+          <label class="inline">보험사
+            <span class="pick-field"><input type="search" id="insurer-q" placeholder="예: 삼성" autocomplete="off"><button type="button" class="pick-btn" data-pick="insurer">선택</button></span>
+          </label>
+          <label class="inline">담보
+            <span class="pick-field"><input type="search" id="coverage-q" placeholder="예: 자차" autocomplete="off"><button type="button" class="pick-btn" data-pick="coverage">선택</button></span>
+          </label>
+        </div>
+        <div class="row">
+          <label class="inline">공업사명
+            <input type="search" id="shop-q" placeholder="예: 북세종" autocomplete="off">
+          </label>
+          <label class="inline">차량번호
+            <input type="search" id="plate-q" placeholder="예: 12가3456" autocomplete="off">
+          </label>
+          <label class="inline">차량명
+            <span class="suggest-field"><input type="search" id="vehicle-q" placeholder="예: 투싼" autocomplete="off"><div class="ac-list" id="vehicle-ac" hidden></div></span>
+          </label>
+          <label class="inline">도장코드
+            <span class="suggest-field"><input type="search" id="paint-q" placeholder="예: 1G3" autocomplete="off"><div class="ac-list" id="paint-ac" hidden></div></span>
+          </label>
+          <button type="submit" class="primary">검색</button>
+          <button type="button" id="reset">초기화</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="status-row">
+      <p class="status" id="status" aria-live="polite"></p>
+      <span class="dept-live" id="dept-live" aria-live="polite"></span>
+      <div class="legend-group">
+        <span class="legend-item"><span class="lg-chip lg-green">녹색<br>음영</span><span class="lg-text"><span class="lg-eq">=</span><span class="lg-desc">부서가 바뀐<br>작업사진</span></span></span>
+        <span class="legend-item"><span class="lg-chip lg-brown">갈색<br>음영</span><span class="lg-text"><span class="lg-eq">=</span><span class="lg-desc">공업사가 수정 후<br>저장한 작업지시서</span></span></span>
+        <span class="legend-item"><span class="lg-chip lg-blue">파란<br>음영</span><span class="lg-text"><span class="lg-eq">=</span><span class="lg-desc">부서 클릭시<br>작업사진 보기</span></span></span>
+      </div>
+      <button type="button" class="today-out-btn" id="today-out-btn">당일출고<br>검색</button>
+      <button type="button" class="dept-all-btn" id="dept-ack-all" hidden>일괄갱신</button>
+      <button type="button" class="excel-list-btn" id="excel-list-btn">작업목록<br>엑셀다운로드</button>
+      <button type="button" class="dept-open-btn" id="dept-open" hidden>부서읽기<br>지정폴더 저장</button>
+      <button type="button" class="dept-open-btn" id="dept-pull" hidden>PC 폴더에 사진 내려받기</button>
+    </div>
+
+    <div class="table-scroll">
+      <table class="orders">
+        <thead>
+          <tr>
+            <th class="c-no">NO</th>
+            <th class="c-date phone-hide">생성일</th>
+            <th class="c-date">입고일</th>
+            <th class="c-date">출고일</th>
+            <th class="c-shop">공업사명</th>
+            <th class="c-ins">보험사</th>
+            <th class="c-cov">담보</th>
+            <th class="c-plate">차량번호</th>
+            <th class="c-veh">차량명</th>
+            <th class="c-dept">부서</th>
+            <th class="c-rep">대표정보<br>보기</th>
+            <th class="c-paint">도장코드</th>
+            <th class="c-open">작업지시서<br>보기</th>
+            <th class="c-edit">수정</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <nav class="pager" id="pager" aria-label="페이지"></nav>
+  </main>
+
+  <script src="perf.js"></script>
+  <script src="version.js"></script>
+  <script src="auth.js"></script>
+  <script src="calendar.js"></script>
+  <script src="vehicle-names.js"></script>
+  <script src="overview.js?v=0.1.450"></script>
+  <script src="dept.js?v=0.1.450"></script>
+</body>
+</html>

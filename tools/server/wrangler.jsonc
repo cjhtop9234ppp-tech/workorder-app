@@ -1,0 +1,22 @@
+{
+  "name": "workorder",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "IMAGES",
+      "id": "YOUR_KV_NAMESPACE_ID"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "workorder",
+      "database_id": "YOUR_D1_DATABASE_ID"
+    }
+  ]
+}

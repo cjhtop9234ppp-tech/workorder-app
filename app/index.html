@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1f3a6e">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>작업지시서</title>
+  <!-- 탭(페이지)을 옮길 때 기다리지 않도록 옆 화면과 큰 자료를 미리 받아 둔다 -->
+  <link rel="prefetch" href="overview.html">
+  <link rel="prefetch" href="settings.html">
+  <link rel="prefetch" href="overview.css">
+  <link rel="prefetch" href="settings.css">
+  <link rel="stylesheet" href="style.css?v=0.1.450">
+  <link rel="stylesheet" href="print.css?v=0.1.450">
+  <!-- 목록의 '보기'로 들어온 경우: 차량정보 화면을 화면에 그리기 전에 가린다 (스크립트가 읽히기 전 깜빡임 방지) -->
+  <script>if (new URLSearchParams(location.search).get("vehicle")) document.documentElement.classList.add("deep-link");</script>
+  <link rel="stylesheet" href="calendar.css?v=0.1.450">
+</head>
+<body>
+  <!-- 1) 차량정보 -->
+  <main id="screen-input" class="screen">
+    <!-- 우측 상단: 작업지시서 목록 보기 · 설정(아이콘, 마스터만) -->
+    <div class="input-top">
+      <span class="page-title">새 작업지시서 <span class="ver" id="page-ver"></span></span>
+      <span class="shop-name" id="shop-name" hidden></span>
+      <span class="app-ver" id="app-ver"></span>
+      <a class="list-link" href="overview.html">작업지시서 목록 보기</a>
+      <a class="icon-btn" id="settings-icon" href="settings.html" title="설정" aria-label="설정" hidden>⚙</a>
+    </div>
+    <section class="card vehicle-card" id="vehicle-card">
+      <h2>1) 차량정보</h2>
+
+      <div class="field">
+        <label class="label" for="vehicle-input">차량명</label>
+        <input id="vehicle-input" type="text" autocomplete="off" placeholder="예: 투싼">
+        <ul class="suggest" id="vehicle-suggest" hidden></ul>
+        <p class="notice" id="vehicle-notice" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="label" for="plate-input">차량번호</label>
+        <input id="plate-input" type="text" placeholder="예: 12가3456">
+      </div>
+
+      <div class="meta-section" id="meta-section">
+        <div class="meta-item meta-in"><span class="lbl">입고일</span><input type="text" id="in-date" placeholder="2026-11-06" maxlength="10" inputmode="numeric"></div>
+        <div class="meta-item meta-out"><span class="lbl">출고일</span>
+          <div class="inline-row">
+            <input type="text" id="out-date" placeholder="2035-01-31" maxlength="10" inputmode="numeric">
+            <button type="button" class="cal-btn" id="out-cal" title="달력에서 고르기">📅</button>
+            <input type="date" id="out-date-picker" tabindex="-1" hidden>
+          </div>
+        </div>
+        <div class="meta-sub">
+        <div class="meta-item meta-ins"><span class="lbl">보험사</span><select id="insurer"></select></div>
+        <div class="meta-item meta-cov"><span class="lbl">담보</span>
+          <span class="cov-row"><select id="coverage"></select>
+          <button type="button" class="meta-add" id="ins-cov-add" title="보험사·담보 하나 더 선택">＋</button></span></div>
+        <div class="meta-item meta-paint"><span class="lbl">도장코드</span>
+          <div class="paint-wrap">
+            <input type="search" id="paint-code" placeholder="검색·선택" autocomplete="off">
+            <ul class="suggest paint-suggest" id="paint-suggest" hidden></ul>
+          </div>
+          <span id="paint-coats"></span>
+        </div>
+        </div>
+      </div>
+      <div class="meta-sub meta-sub2" id="ins-cov-2" hidden>
+        <div class="meta-item meta-ins"><span class="lbl">보험사</span><select id="insurer2"></select></div>
+        <div class="meta-item meta-cov"><span class="lbl">담보</span><select id="coverage2"></select></div>
+      </div>
+      <button class="primary" id="open-order" type="button">작업지시서 만들기</button>
+    </section>
+
+    
+  </main>
+
+  <!-- 작업지시서 화면: 1. 차량정보 / 2. 작업지시서 작성 -->
+  <main id="screen-order" class="screen" hidden>
+    <section class="card order-card">
+      <div class="order-section" id="vehicle-section">
+        <h2 class="sec-title clickable" id="vehicle-title" title="누르면 상단 배지로 줄어듭니다">1. 차량정보</h2>
+        <div class="order-info" id="order-info"></div>
+        <div class="order-buttons">
+          <button type="button" class="primary" id="save-order">저장</button>
+          <button type="button" id="reload-saved">저장값 불러오기</button>
+          <a class="list-link" href="overview.html">작업지시서 목록 보기</a>
+          <a class="list-link" id="settings-link" href="settings.html" hidden>설정</a>
+          <button type="button" id="back-input">새작업지시서 작업</button>
+          <button type="button" id="memo-bank-btn">기타메모사항 입력</button>
+          <button type="button" id="print-order">인쇄</button>
+          <span class="sync-status" id="sync-status"></span>
+        </div>
+      </div>
+      <div class="order-section" id="work-section">
+        <div class="work-line">
+          <h2 class="sec-title">2. 작업지시서 작성</h2>
+          <button type="button" class="small-action edit" id="edit-order" hidden>수정</button>
+          <button type="button" class="small-action ack" id="ack-order" hidden>수정 확인</button>
+          <span class="lock-note" id="lock-note" hidden>보기 모드</span>
+          <span class="legend-inline" aria-label="음영 설명">
+            <span class="chip red">빨간음영: 교환</span>
+            <span class="chip blue">파란음영: 판금</span>
+            <span class="chip green">녹색음영: 수정</span>
+          </span>
+          <span class="legend-help" id="general-help">작업구분 클릭: 교환→판금→빈칸 · 우클릭(PC) / 2초 누르기(휴대폰): 해제</span>
+        </div>
+        <div class="work-line">
+          <button type="button" class="small-action general" id="general-btn">일반</button>
+          <span class="general-picked" id="general-picked"></span>
+        </div>
+        <div class="work-line memo-line">
+          <button type="button" class="small-action general" id="memo-pick-btn">기타메모사항</button>
+          <div class="memo-picked" id="memo-picked" hidden></div>
+        </div>
+            <section class="summary-in-work" id="summary">
+      <div class="sum-head"><h2>작업 요약</h2><span id="summary-count"></span></div>
+      <ul id="summary-list"></ul>
+    </section>
+      </div>
+    </section>
+
+
+
+    <section class="table-wrap card">
+      <table class="order-table" id="order-table">
+        <colgroup>
+          <col class="w-part">
+          <col class="w-no">
+          <col class="w-item">
+          <col class="w-side">
+          <col class="w-side">
+          <col class="w-side">
+          <col class="w-side">
+          <col class="w-memo">
+          <col class="w-tip">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2" class="c-part">파트</th>
+            <th rowspan="2" class="c-no">NO</th>
+            <th rowspan="2" class="c-item">주작업항목</th>
+            <th colspan="2" class="c-group grp-l grp-r">작업구분</th>
+            <th colspan="2" class="c-group grp-l grp-r">도장구분</th>
+            <th rowspan="2" class="c-memo">기타메모사항</th>
+            <th rowspan="2" class="c-tip"><span class="tip-l1">착안점</span><span class="tip-l2">(복원수리)</span></th>
+          </tr>
+          <tr>
+            <th class="c-side grp-l">좌측</th>
+            <th class="c-side grp-r">우측</th>
+            <th class="c-side grp-l">좌측</th>
+            <th class="c-side grp-r">우측</th>
+          </tr>
+        </thead>
+        <tbody id="order-body"></tbody>
+      </table>
+      <p class="empty" id="order-empty" hidden></p>
+    </section>
+
+
+  </main>
+
+  <!-- 차량정보를 줄인 상단 배지 (누르면 다시 펼쳐짐) -->
+  <button type="button" class="vehicle-badge" id="vehicle-badge" hidden></button>
+
+  <!-- 보기 팝업: 주작업항목의 작업내역 목록 (항목을 고르면 착안점에 적힌다) -->
+  <div class="modal" id="tip-pick" hidden>
+    <div class="modal-box tip-pick-box" role="dialog" aria-labelledby="tip-pick-title">
+      <h3 id="tip-pick-title"></h3>
+      <table class="tip-table">
+        <tbody id="tip-pick-body"></tbody>
+      </table>
+      <button type="button" id="tip-pick-close">닫기</button>
+    </div>
+  </div>
+
+  <!-- 착안점 그림 팝업 (아무 곳이나 누르면 닫힘) -->
+  <div class="modal tip-modal" id="tip-modal" hidden>
+    <div class="modal-box tip-box">
+      <div class="tip-zoom">
+        <button type="button" id="tip-zoom-out" aria-label="축소">−</button>
+        <button type="button" id="tip-zoom-reset" aria-label="원래 크기">100%</button>
+        <button type="button" id="tip-zoom-in" aria-label="확대">+</button>
+      </div>
+      <img id="tip-image" alt="">
+      <p id="tip-caption"></p>
+    </div>
+  </div>
+
+  <!-- 알림 팝업 -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box" role="alertdialog" aria-live="assertive">
+      <p id="modal-msg"></p>
+      <button type="button" id="modal-ok" class="primary">확인</button>
+    </div>
+  </div>
+
+  <!-- 나가기 확인: 작업중이던 창을 닫겠습니까? -->
+  <div class="modal" id="confirm-modal" hidden>
+    <div class="modal-box" role="alertdialog" aria-live="assertive">
+      <p id="confirm-msg">작업중이던 창을 닫겠습니까?</p>
+      <div class="modal-actions">
+        <button type="button" class="primary" id="confirm-yes">예</button>
+        <button type="button" id="confirm-no">아니오</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 작업구분 설명 전체 보기 팝업: 설명을 누르면 나오고, 바깥이나 팝업 내용을 누르면 사라진다 -->
+  <div id="help-pop" hidden>
+    <div class="help-pop-box" id="help-pop-text"></div>
+  </div>
+
+  <!-- 기타메모사항 입력: 목록을 직접 적고 순서를 끌어서 바꾼다 -->
+  <div class="modal" id="memo-bank-modal" hidden>
+    <div class="modal-box wide memo-bank-box" role="dialog" aria-labelledby="memo-bank-title">
+      <h3 id="memo-bank-title">기타메모사항 입력</h3>
+      <p class="hint">위아래 순서는 왼쪽 버튼을 누른 채 끌어서 바꿀 수 있습니다. 닫을 때 내용은 자동으로 저장됩니다.</p>
+      <!-- 신설(주작업항목): 이 차량 구분의 주작업항목을 고르면, 입력한 기타메모가 그 항목에 연결된다 -->
+      <div class="memo-new">
+        <input type="text" id="memo-new-cat" placeholder="구분(신규)" aria-label="구분(신규)">
+        <input type="text" id="memo-new-text" placeholder="기타메모 내용" aria-label="기타메모 내용">
+        <select id="memo-new-item" aria-label="주작업항목 선택"></select>
+        <button type="button" id="memo-new-add">추가</button>
+      </div>
+      <div class="memo-bank-scroll">
+        <table class="memo-table">
+          <thead><tr><th class="grip-col"></th><th class="no-col">NO</th><th class="cat-col"><button type="button" id="memo-cat-all" class="cat-head">구분</button> <select id="memo-cat-filter" aria-label="구분 선택"></select></th><th>내용</th><th>설정된 주작업항목</th><th class="del-col"></th></tr></thead>
+          <tbody id="memo-bank-rows"></tbody>
+        </table>
+      </div>
+      <button type="button" id="memo-bank-add">행 추가</button>
+      <div class="modal-actions">
+        <button type="button" class="primary" id="memo-bank-save">저장</button>
+        <button type="button" id="memo-bank-cancel">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 저장된 기타메모사항 보기 -->
+  <div class="modal" id="memo-view-modal" hidden>
+    <div class="modal-box wide" role="dialog" aria-labelledby="memo-view-title">
+      <h3 id="memo-view-title">저장된 기타메모사항</h3>
+      <table class="memo-table">
+        <thead><tr><th class="no-col">NO</th><th>내용</th></tr></thead>
+        <tbody id="memo-view-rows"></tbody>
+      </table>
+      <div class="modal-actions">
+        <button type="button" class="primary" id="memo-view-close">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기타메모사항 선택: 행의 선택 버튼을 누르면 저장된 목록에서 고른다 -->
+  <div class="modal" id="memo-pick-modal" hidden>
+    <div class="modal-box wide" role="dialog" aria-labelledby="memo-pick-title">
+      <h3 id="memo-pick-title">기타메모사항 선택</h3>
+      <p class="hint">여러 개를 고를 수 있습니다. 주작업항목 이름이 들어간 문장은 그 항목의 기타메모에 자동으로 들어갑니다.</p>
+      <table class="memo-table">
+        <thead><tr><th class="check-col">선택</th><th class="no-col">NO</th><th>내용</th><th>설정된 주작업항목</th></tr></thead>
+        <tbody id="memo-pick-rows"></tbody>
+      </table>
+      <div class="modal-actions">
+        <button type="button" id="memo-pick-close">닫기</button>
+        <button type="button" class="primary" id="memo-pick-apply">적용</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 일반 작업: 여러 개를 골라 켜고 끈다 (인쇄 시 함께 나온다) -->
+  <div class="modal" id="general-modal" hidden>
+    <div class="modal-box" role="dialog" aria-labelledby="general-title">
+      <h3 id="general-title">일반 작업</h3>
+      <p class="hint">누르면 선택되고, 다시 누르면 해제됩니다.</p>
+      <div class="general-list" id="general-list"></div>
+      <div class="modal-actions">
+        <button type="button" class="primary" id="general-close">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 인쇄 미리 보기 막대: 휴대폰에서 인쇄 버튼을 누르면 위에 나온다 -->
+  <div id="print-bar" hidden>
+    <button type="button" id="pp-close">닫기</button>
+    <span class="pp-title">인쇄 미리 보기</span>
+    <button type="button" id="pp-print">인쇄</button>
+    <span class="pp-share">
+      <button type="button" id="pp-dl-jpg">JPG다운받기</button>
+      <button type="button" id="pp-dl-pdf">PDF다운받기</button>
+      <button type="button" id="pp-share-jpg" class="primary">JPG공유하기</button>
+      <button type="button" id="pp-share-pdf" class="primary">PDF공유하기</button>
+    </span>
+  </div>
+  <p id="pp-status" aria-live="polite"></p>
+
+  <!-- 인쇄용 A4 작업지시서 (PC는 인쇄할 때만, 휴대폰은 미리 보기로 나온다) -->
+  <section id="print-sheet" aria-hidden="true"></section>
+
+  <script src="perf.js"></script>
+  <!-- 서비스 워커: 설치형 앱(카톡 등 공유 대상)으로 인식되도록 새 작업지시서 화면에서도 등록한다 -->
+  <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});</script>
+  <script src="version.js"></script>
+  <script src="data.js?v=0.1.450"></script>
+  <script src="auth.js?v=0.1.450"></script>
+  <script src="calendar.js?v=0.1.450"></script>
+  <script src="order-tools.js?v=0.1.450"></script>
+  <script src="app.js?v=0.1.450"></script>
+  <script src="print.js?v=0.1.450"></script>
+</body>
+</html>
