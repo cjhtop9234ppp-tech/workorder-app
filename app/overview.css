@@ -1014,3 +1014,13 @@ table.orders thead th.sort-asc::after { content: " ▲"; }
 table.orders thead th.sort-desc::after { content: " ▼"; }
 /* '작성' 단추: 아직 작업 내용이 없는 작업지시서 */
 a.open.write { font-weight: 700; }
+
+/* 견적보기 단추와 창 (화면만) */
+a.open + .est-btn { margin-left: 6px; }
+.est-btn { font: inherit; font-size: 12px; padding: 2px 8px; cursor: pointer; }
+.est-modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+.est-modal[hidden] { display: none; }
+.est-box { background: #fff; color: #1d2530; width: min(560px, 100%); border-radius: 8px; padding: 14px 16px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.est-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.est-rule { color: #5b6676; font-size: 12px; margin: 6px 0 10px; }
+.est-body { font-size: 14px; line-height: 1.5; min-height: 80px; }

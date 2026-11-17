@@ -80,6 +80,25 @@ function linkTo(order, write = false) {
   return `index.html?${params}`;
 }
 
+// 견적보기 창 (화면만): 뉴텍 4.0 견적을 붙이면 여기에 목록이 나온다. 매칭 기준은 사업자번호 AND 차량번호, 최근 1주일.
+function openEstimateView(order) {
+  let box = document.getElementById("est-modal");
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "est-modal";
+    box.className = "est-modal";
+    box.innerHTML = '<div class="est-box" role="dialog" aria-label="견적보기">'
+      + '<div class="est-head"><b class="est-title"></b><button type="button" class="est-close">닫기</button></div>'
+      + '<p class="est-rule">매칭 기준: 사업자번호 AND 차량번호 · 최근 1주일</p>'
+      + '<div class="est-body"></div></div>';
+    document.body.appendChild(box);
+    box.addEventListener("click", (e) => { if (e.target === box || e.target.classList.contains("est-close")) box.hidden = true; });
+  }
+  box.querySelector(".est-title").textContent = `견적보기 · ${order.plate || "-"} · ${order.vehicle || ""}`;
+  box.querySelector(".est-body").textContent = "뉴텍 4.0 견적 자료를 연결하면 이 자리에 목록이 나타납니다. (현재는 화면만 적용된 상태입니다)";
+  box.hidden = false;
+}
+
 // 목록 정렬: 생성일(기본) · 입고일 · 출고일. 머리글을 누르면 오름차순·내림차순이 바뀐다.
 let sortKey = "created";
 let sortDir = "desc";
@@ -465,6 +484,13 @@ function renderRows(data) {
     });
     if (order.revised) link.classList.add("revised");
     open.appendChild(link);
+    // 견적보기: '보기' 오른쪽. 뉴텍 4.0 견적 연결은 아직 준비 중이다 (화면만 먼저 적용)
+    const estBtn = document.createElement("button");
+    estBtn.type = "button";
+    estBtn.className = "est-btn";
+    estBtn.textContent = "견적보기";
+    estBtn.addEventListener("click", (e) => { e.preventDefault(); openEstimateView(order); });
+    open.appendChild(estBtn);
     const cells = {
       no: cell(data.total - start - i),
       created: dayCell(dateKey(order.createdAt)),
